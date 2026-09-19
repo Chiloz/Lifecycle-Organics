@@ -1,0 +1,6 @@
+{
+  "name": "Lifecycle Organics",
+  "description": "Sustainable bio-fertilizers and organic crop protection solutions across Zambia.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

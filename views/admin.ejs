@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Lifecycle Organics Management Portal</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS Play CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2d4a22',     // Forest Dark Olive
+                        secondary: '#1b2a16',   // Rich Midnight Green
+                        forest: '#142111',      // Extra deep green
+                        leaf: '#4c7a34',        // Organic green
+                        sage: '#8fa882',        // Muted soft green
+                        moss: '#d0ddcb',        // Light sage moss
+                        cream: '#f9f6f0',       // Main Warm backdrop cream
+                        sand: '#e9e4d9',        // Light sand border cream
+                        taupe: '#dfd9cc',       // Warm taupe gray accent
+                        'accent-tan': '#c29a63',// Premium Gold/Tan Accent
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+                        serif: ['Playfair Display', 'Georgia', 'serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body class="min-h-screen bg-cream font-sans flex flex-col text-secondary selection:bg-moss selection:text-primary">
+
+    <!-- Top Admin Header -->
+    <header class="sticky top-0 z-40 bg-secondary text-cream border-b border-sand/20 shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo & Title -->
+                <div class="flex items-center gap-3">
+                    <a href="/" class="flex items-center gap-2">
+                        <img src="/assets/images/LIFECYCLE_logo.webp" alt="Logo" class="h-10 w-auto">
+                        <div class="hidden sm:flex flex-col">
+                            <span class="text-sm font-bold font-serif text-cream">Lifecycle Organics</span>
+                            <span class="text-[10px] font-mono uppercase tracking-widest text-accent-tan">Admin Console</span>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Status Pill & Actions -->
+                <div class="flex items-center gap-3">
+                    <!-- Firebase Connection Indicator -->
+                    <div id="firebase-status-pill" class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/30 border border-sand/20 text-xs font-mono">
+                        <span id="firebase-status-dot" class="h-2 w-2 rounded-full bg-amber-400 animate-pulse"></span>
+                        <span id="firebase-status-text" class="text-cream/80">Checking Firebase...</span>
+                    </div>
+
+                    <a href="/" class="px-3.5 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-xs font-semibold text-cream transition flex items-center gap-1.5">
+                        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                        </svg>
+                        <span>Live Site</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+        
+        <!-- Header Banner & Metrics -->
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-sand">
+            <div>
+                <h1 class="text-2xl sm:text-3xl font-serif font-bold text-secondary">
+                    Content &amp; Product Management
+                </h1>
+                <p class="text-xs sm:text-sm text-secondary/70 mt-1">
+                    Manage certified organic products, publish farmer testimonials, and review regional inquiry leads.
+                </p>
+            </div>
+            <div class="flex items-center gap-2 flex-wrap">
+                <button id="btn-add-product" class="px-4 py-2.5 rounded-xl bg-primary hover:bg-forest text-cream text-xs font-bold uppercase tracking-wider shadow-sm transition flex items-center gap-1.5">
+                    <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+                    </svg>
+                    Post Product
+                </button>
+                <button id="btn-add-testimonial" class="px-4 py-2.5 rounded-xl bg-accent-tan hover:bg-accent-tan/90 text-white text-xs font-bold uppercase tracking-wider shadow-sm transition flex items-center gap-1.5">
+                    <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+                    </svg>
+                    Post Testimonial
+                </button>
+            </div>
+        </div>
+
+        <!-- Metrics Overview Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="bg-white p-5 rounded-2xl border border-sand shadow-sm space-y-2">
+                <p class="text-xs font-mono uppercase tracking-widest text-secondary/60">Active Products</p>
+                <div class="flex items-baseline justify-between">
+                    <span id="metric-products-count" class="text-3xl font-bold font-serif text-primary">0</span>
+                    <span class="text-xs px-2 py-0.5 rounded-full bg-moss text-primary font-semibold">Catalog</span>
+                </div>
+            </div>
+
+            <div class="bg-white p-5 rounded-2xl border border-sand shadow-sm space-y-2">
+                <p class="text-xs font-mono uppercase tracking-widest text-secondary/60">Farmer Testimonials</p>
+                <div class="flex items-baseline justify-between">
+                    <span id="metric-testimonials-count" class="text-3xl font-bold font-serif text-secondary">0</span>
+                    <span class="text-xs px-2 py-0.5 rounded-full bg-moss text-primary font-semibold">Verified</span>
+                </div>
+            </div>
+
+            <div class="bg-white p-5 rounded-2xl border border-sand shadow-sm space-y-2">
+                <p class="text-xs font-mono uppercase tracking-widest text-secondary/60">Customer Inquiries</p>
+                <div class="flex items-baseline justify-between">
+                    <span id="metric-inquiries-count" class="text-3xl font-bold font-serif text-accent-tan">0</span>
+                    <span class="text-xs px-2 py-0.5 rounded-full bg-sand text-secondary font-semibold">Leads</span>
+                </div>
+            </div>
+
+            <div class="bg-white p-5 rounded-2xl border border-sand shadow-sm space-y-2">
+                <p class="text-xs font-mono uppercase tracking-widest text-secondary/60">Firebase Backend</p>
+                <div class="flex items-baseline justify-between">
+                    <span id="metric-firebase-status" class="text-base font-bold font-mono text-leaf">Ready</span>
+                    <button id="btn-quick-config" class="text-xs text-primary underline hover:text-forest">Settings</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard Navigation Tabs -->
+        <div class="border-b border-sand flex items-center gap-4 overflow-x-auto pb-1 text-sm font-semibold">
+            <button class="nav-tab active px-4 py-2.5 border-b-2 border-primary text-primary transition" data-target="tab-products">
+                Products Catalog
+            </button>
+            <button class="nav-tab px-4 py-2.5 border-b-2 border-transparent text-secondary/70 hover:text-primary transition" data-target="tab-testimonials">
+                Farmer Testimonials
+            </button>
+            <button class="nav-tab px-4 py-2.5 border-b-2 border-transparent text-secondary/70 hover:text-primary transition" data-target="tab-inquiries">
+                Customer Inquiries
+            </button>
+            <button class="nav-tab px-4 py-2.5 border-b-2 border-transparent text-secondary/70 hover:text-primary transition" data-target="tab-firebase">
+                Firebase Integration &amp; Rules
+            </button>
+        </div>
+
+        <!-- TAB 1: Products Catalog -->
+        <div id="tab-products" class="tab-pane space-y-6">
+            <div class="flex items-center justify-between flex-wrap gap-4">
+                <h2 class="text-xl font-serif font-bold text-secondary">
+                    Product Catalog Management
+                </h2>
+                <div class="flex items-center gap-3">
+                    <input type="text" id="search-products" placeholder="Search products..." class="px-3.5 py-2 rounded-xl bg-white border border-sand text-xs focus:ring-1 focus:ring-primary focus:outline-none w-60">
+                </div>
+            </div>
+
+            <div id="products-list-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Dynamically rendered product cards -->
+                <div class="col-span-full py-12 text-center text-secondary/60">
+                    Loading products...
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 2: Farmer Testimonials -->
+        <div id="tab-testimonials" class="tab-pane hidden space-y-6">
+            <div class="flex items-center justify-between flex-wrap gap-4">
+                <div>
+                    <h2 class="text-xl font-serif font-bold text-secondary">
+                        Farmer Reviews &amp; Testimonials
+                    </h2>
+                    <p class="text-xs text-secondary/70">Moderate field quotes displayed on the public homepage.</p>
+                </div>
+            </div>
+
+            <div id="testimonials-list-container" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Dynamically rendered testimonial cards -->
+                <div class="col-span-full py-12 text-center text-secondary/60">
+                    Loading testimonials...
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 3: Customer Inquiries -->
+        <div id="tab-inquiries" class="tab-pane hidden space-y-6">
+            <div class="flex items-center justify-between flex-wrap gap-4">
+                <div>
+                    <h2 class="text-xl font-serif font-bold text-secondary">
+                        Direct Customer Inquiries &amp; Orders
+                    </h2>
+                    <p class="text-xs text-secondary/70">Submissions from the canister quote calculator and contact form.</p>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl border border-sand shadow-sm overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs">
+                        <thead class="bg-sand/30 border-b border-sand font-mono uppercase text-secondary/70">
+                            <tr>
+                                <th class="p-4">Customer</th>
+                                <th class="p-4">Contact Info</th>
+                                <th class="p-4">Region / Product</th>
+                                <th class="p-4">Quantity</th>
+                                <th class="p-4">Notes</th>
+                                <th class="p-4">Date</th>
+                                <th class="p-4">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="inquiries-table-body" class="divide-y divide-sand/40">
+                            <tr>
+                                <td colspan="7" class="p-8 text-center text-secondary/60">Loading inquiries...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 4: Firebase Configuration -->
+        <div id="tab-firebase" class="tab-pane hidden space-y-8">
+            <div class="bg-white p-6 sm:p-8 rounded-3xl border border-sand shadow-sm space-y-6">
+                <div class="border-b border-sand pb-4">
+                    <h2 class="text-xl font-serif font-bold text-secondary flex items-center gap-2">
+                        <svg class="h-5 w-5 text-accent-tan" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M4.68 18.23L8.03 2.06c.09-.43.68-.53.92-.16l3.41 5.39L4.68 18.23zm15.75-.41l-2.09-13c-.07-.44-.64-.59-.92-.25L3.6 18.57l7.74 4.34c.4.22.88.22 1.28 0l7.81-5.09z"/>
+                        </svg>
+                        Firebase Cloud Project Integration
+                    </h2>
+                    <p class="text-xs sm:text-sm text-secondary/70 mt-1">
+                        You mentioned you will create the Firebase project yourself. Paste your Web App credentials below to connect this portal and the public website directly to your Cloud Firestore database.
+                    </p>
+                </div>
+
+                <!-- Credentials Editor Form -->
+                <form id="firebase-config-form" class="space-y-4 max-w-2xl">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-mono uppercase text-secondary/70 mb-1">Project ID</label>
+                            <input type="text" id="fb-projectId" placeholder="e.g. lifecycle-organics-app" class="w-full px-3 py-2 text-xs rounded-xl bg-cream border border-sand font-mono focus:ring-1 focus:ring-primary focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-mono uppercase text-secondary/70 mb-1">API Key</label>
+                            <input type="text" id="fb-apiKey" placeholder="AIzaSy..." class="w-full px-3 py-2 text-xs rounded-xl bg-cream border border-sand font-mono focus:ring-1 focus:ring-primary focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-mono uppercase text-secondary/70 mb-1">Auth Domain</label>
+                            <input type="text" id="fb-authDomain" placeholder="project-id.firebaseapp.com" class="w-full px-3 py-2 text-xs rounded-xl bg-cream border border-sand font-mono focus:ring-1 focus:ring-primary focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-mono uppercase text-secondary/70 mb-1">Storage Bucket</label>
+                            <input type="text" id="fb-storageBucket" placeholder="project-id.appspot.com" class="w-full px-3 py-2 text-xs rounded-xl bg-cream border border-sand font-mono focus:ring-1 focus:ring-primary focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-mono uppercase text-secondary/70 mb-1">Messaging Sender ID</label>
+                            <input type="text" id="fb-messagingSenderId" placeholder="1234567890" class="w-full px-3 py-2 text-xs rounded-xl bg-cream border border-sand font-mono focus:ring-1 focus:ring-primary focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-mono uppercase text-secondary/70 mb-1">App ID</label>
+                            <input type="text" id="fb-appId" placeholder="1:1234567890:web:abcdef" class="w-full px-3 py-2 text-xs rounded-xl bg-cream border border-sand font-mono focus:ring-1 focus:ring-primary focus:outline-none">
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-3 pt-2">
+                        <button type="submit" class="px-5 py-2.5 rounded-xl bg-primary hover:bg-forest text-cream text-xs font-bold uppercase tracking-wider shadow-sm transition">
+                            Save Configuration
+                        </button>
+                        <button type="button" id="btn-test-firebase" class="px-5 py-2.5 rounded-xl bg-taupe/50 hover:bg-taupe text-secondary text-xs font-bold uppercase tracking-wider transition">
+                            Test Firestore Connection
+                        </button>
+                    </div>
+
+                    <div id="firebase-test-feedback" class="text-xs font-mono p-3 rounded-xl hidden"></div>
+                </form>
+
+                <!-- Firebase Deployment Quick Guide -->
+                <div class="bg-sand/30 p-5 rounded-2xl border border-sand space-y-3">
+                    <h3 class="text-sm font-bold text-secondary font-serif">
+                        How to deploy this website to Firebase Hosting:
+                    </h3>
+                    <div class="space-y-2 text-xs text-secondary/80 font-mono">
+                        <p>1. In terminal, install Firebase CLI: <code class="bg-white px-2 py-0.5 rounded border border-sand font-bold">npm install -g firebase-tools</code></p>
+                        <p>2. Authenticate: <code class="bg-white px-2 py-0.5 rounded border border-sand font-bold">firebase login</code></p>
+                        <p>3. Select project: <code class="bg-white px-2 py-0.5 rounded border border-sand font-bold">firebase use --add</code></p>
+                        <p>4. Deploy hosting & rules: <code class="bg-white px-2 py-0.5 rounded border border-sand font-bold">firebase deploy</code></p>
+                    </div>
+                    <p class="text-xs text-secondary/60 pt-1">
+                        Note: <code>firebase.json</code>, <code>firestore.rules</code>, and <code>firebase-blueprint.json</code> are pre-configured in this repository.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- PRODUCT MODAL (Add / Edit) -->
+    <div id="modal-product" class="fixed inset-0 bg-secondary/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-3xl border border-sand shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 sm:p-8 space-y-6">
+            <div class="flex items-center justify-between border-b border-sand pb-4">
+                <h3 id="modal-product-title" class="text-xl font-serif font-bold text-secondary">
+                    Add New Organic Product
+                </h3>
+                <button id="modal-product-close" class="p-2 text-secondary/60 hover:text-secondary rounded-lg">
+                    ✕
+                </button>
+            </div>
+
+            <form id="product-form" class="space-y-4">
+                <input type="hidden" id="prod-id">
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-secondary mb-1">Product Name *</label>
+                        <input type="text" id="prod-name" required placeholder="e.g. Bio-Fertilizer 10L" class="w-full px-3 py-2 text-xs rounded-xl bg-cream border border-sand focus:ring-1 focus:ring-primary focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-secondary mb-1">Brand / Banner Label</label>
+                        <input type="text" id="prod-brand" placeholder="e.g. SOIL STIMULANT" class="w-full px-3 py-2 text-xs rounded-xl bg-cream border border-sand focus:ring-1 focus:ring-primary focus:outline-none">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-secondary mb-1">Category</label>
+                        <select id="prod-category" class="w-full px-3 py-2 text-xs rounded-xl bg-cream border border-sand focus:ring-1 focus:ring-primary focus:outline-none">
+                            <option value="Bio-Fertilizers">Bio-Fertilizers</option>
+                            <option value="Crop Defense">Crop Defense</option>
+                            <option value="Organic Pest Control">Organic Pest Control</option>
+                            <option value="Growth Enhancers">Growth Enhancers</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-secondary mb-1">Price (ZMW) *</label>
+                        <input type="number" id="prod-price" required min="0" placeholder="150" class="w-full px-3 py-2 text-xs rounded-xl bg-cream border border-sand focus:ring-1 focus:ring-primary focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-secondary mb-1">Visual Badge</label>
+                        <input type="text" id="prod-badge" placeholder="e.g. 10x Faster Growth" class="w-full px-3 py-2 text-xs rounded-xl bg-cream border border-sand focus:ring-1 focus:ring-primary focus:outline-none">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-secondary mb-1">Tagline</label>
+                    <input type="text" id="prod-tagline" placeholder="e.g. Nourishes Soil, Boosts Growth" class="w-full px-3 py-2 text-xs rounded-xl bg-cream border border-sand focus:ring-1 focus:ring-primary focus:outline-none">
+                </div>
+
+                <!-- Product Image Selection -->
+                <div>
+                    <label class="block text-xs font-semibold text-secondary mb-1">Product Photography</label>
+                    <div class="flex items-center gap-2 mb-2">
+                        <input type="text" id="prod-image" placeholder="/assets/images/..." class="w-full px-3 py-2 text-xs rounded-xl bg-cream border border-sand focus:ring-1 focus:ring-primary focus:outline-none">
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-[11px] text-secondary/60">Presets:</span>
+                        <button type="button" class="btn-preset-img px-2.5 py-1 text-[10px] bg-sand rounded-lg hover:bg-moss text-primary font-bold" data-img="/assets/images/bio_fertilizer_1783345223620.jpg">Fertilizer Canister</button>
+                        <button type="button" class="btn-preset-img px-2.5 py-1 text-[10px] bg-sand rounded-lg hover:bg-moss text-primary font-bold" data-img="/assets/images/bio_sulphur_1783345245681.jpg">Bio-Sulphur Canister</button>
+                        <button type="button" class="btn-preset-img px-2.5 py-1 text-[10px] bg-sand rounded-lg hover:bg-moss text-primary font-bold" data-img="/assets/images/bio_soapcide_1783345266462.jpg">Soapcide Canister</button>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-secondary mb-1">Description</label>
+                    <textarea id="prod-description" rows="3" placeholder="Explain the formulation, soil impact, and target plants..." class="w-full px-3 py-2 text-xs rounded-xl bg-cream border border-sand focus:ring-1 focus:ring-primary focus:outline-none"></textarea>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-secondary mb-1">Features (comma separated)</label>
+                    <input type="text" id="prod-features" placeholder="100% Organic & Safe, Prevents Yellowing, Nitrogen Fixation" class="w-full px-3 py-2 text-xs rounded-xl bg-cream border border-sand focus:ring-1 focus:ring-primary focus:outline-none">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-secondary mb-1">Usage &amp; Dilution Instructions</label>
+                    <textarea id="prod-usage" rows="2" placeholder="e.g. Mix 50ml per 10L knapsack sprayer..." class="w-full px-3 py-2 text-xs rounded-xl bg-cream border border-sand focus:ring-1 focus:ring-primary focus:outline-none"></textarea>
+                </div>
+
+                <div class="flex items-center justify-end gap-3 pt-4 border-t border-sand">
+                    <button type="button" id="modal-product-cancel" class="px-5 py-2.5 rounded-xl bg-sand hover:bg-taupe text-secondary text-xs font-bold uppercase tracking-wider transition">
+                        Cancel
+                    </button>
+                    <button type="submit" class="px-6 py-2.5 rounded-xl bg-primary hover:bg-forest text-cream text-xs font-bold uppercase tracking-wider shadow-md transition">
+                        Save Product
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- TESTIMONIAL MODAL (Add / Edit) -->
+    <div id="modal-testimonial" class="fixed inset-0 bg-secondary/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-3xl border border-sand shadow-2xl max-w-xl w-full max-h-[90vh] overflow-y-auto p-6 sm:p-8 space-y-6">
+            <div class="flex items-center justify-between border-b border-sand pb-4">
+                <h3 id="modal-testimonial-title" class="text-xl font-serif font-bold text-secondary">
+                    Post Farmer Testimonial
+                </h3>
+                <button id="modal-testimonial-close" class="p-2 text-secondary/60 hover:text-secondary rounded-lg">
+                    ✕
+                </button>
+            </div>
+
+            <form id="testimonial-form" class="space-y-4">
+                <input type="hidden" id="test-id">
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-secondary mb-1">Farmer / Reviewer Name *</label>
+                        <input type="text" id="test-author" required placeholder="e.g. Stanford Mutale" class="w-full px-3 py-2 text-xs rounded-xl bg-cream border border-sand focus:ring-1 focus:ring-primary focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-secondary mb-1">Role / Farm Title</label>
+                        <input type="text" id="test-role" placeholder="e.g. Commercial Maize Grower" class="w-full px-3 py-2 text-xs rounded-xl bg-cream border border-sand focus:ring-1 focus:ring-primary focus:outline-none">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-secondary mb-1">Farm / Cooperative Name</label>
+                        <input type="text" id="test-farm" placeholder="e.g. Mutale Agri Farms" class="w-full px-3 py-2 text-xs rounded-xl bg-cream border border-sand focus:ring-1 focus:ring-primary focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-secondary mb-1">Location / District</label>
+                        <input type="text" id="test-location" placeholder="e.g. Mkushi Farming Block" class="w-full px-3 py-2 text-xs rounded-xl bg-cream border border-sand focus:ring-1 focus:ring-primary focus:outline-none">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-secondary mb-1">Crops Cultivated</label>
+                        <input type="text" id="test-crop" placeholder="e.g. Maize, Soya, Tomatoes" class="w-full px-3 py-2 text-xs rounded-xl bg-cream border border-sand focus:ring-1 focus:ring-primary focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-secondary mb-1">Star Rating (1 to 5)</label>
+                        <select id="test-rating" class="w-full px-3 py-2 text-xs rounded-xl bg-cream border border-sand focus:ring-1 focus:ring-primary focus:outline-none">
+                            <option value="5">★★★★★ (5 Stars - Outstanding)</option>
+                            <option value="4">★★★★☆ (4 Stars - Highly Effective)</option>
+                            <option value="3">★★★☆☆ (3 Stars - Satisfactory)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-secondary mb-1">Testimonial Quote *</label>
+                    <textarea id="test-quote" required rows="4" placeholder="Detail the results: crop color, yield increase, pest elimination..." class="w-full px-3 py-2 text-xs rounded-xl bg-cream border border-sand focus:ring-1 focus:ring-primary focus:outline-none"></textarea>
+                </div>
+
+                <div class="flex items-center gap-3">
+                    <input type="checkbox" id="test-featured" checked class="h-4 w-4 rounded text-primary focus:ring-primary">
+                    <label for="test-featured" class="text-xs text-secondary font-semibold">Feature on Public Homepage</label>
+                </div>
+
+                <div class="flex items-center justify-end gap-3 pt-4 border-t border-sand">
+                    <button type="button" id="modal-testimonial-cancel" class="px-5 py-2.5 rounded-xl bg-sand hover:bg-taupe text-secondary text-xs font-bold uppercase tracking-wider transition">
+                        Cancel
+                    </button>
+                    <button type="submit" class="px-6 py-2.5 rounded-xl bg-accent-tan hover:bg-accent-tan/90 text-white text-xs font-bold uppercase tracking-wider shadow-md transition">
+                        Publish Testimonial
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Client-side Controller Script -->
+    <script type="module" src="/js/admin-app.js"></script>
+</body>
+</html>

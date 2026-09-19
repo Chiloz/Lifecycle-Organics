@@ -1,0 +1,239 @@
+<%- include('header') %>
+
+<div class="space-y-20 pb-16 pt-24">
+  
+  <!-- Title Header -->
+  <section class="bg-secondary text-white py-16 relative overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-br from-secondary via-secondary to-forest/45"></div>
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4 z-10">
+      <p class="text-accent-tan font-bold uppercase tracking-widest text-xs font-mono">
+        Connect With Our Experts
+      </p>
+      <h1 class="text-4xl sm:text-5xl font-serif font-light tracking-tight text-white">
+        Contact <span class="italic font-normal">Lifecycle Organics</span>
+      </h1>
+      <p class="text-cream/80 max-w-2xl mx-auto text-sm sm:text-base leading-relaxed">
+        Whether you are ordering 5L canisters or scheduling commercial estate deliveries, reach our localized agents or drop us an instant direct message.
+      </p>
+    </div>
+  </section>
+
+  <!-- Contacts Grid Section -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+      
+      <!-- Left Column: Regional Agents Direct Phone Cards -->
+      <div class="lg:col-span-5 space-y-6">
+        <div class="space-y-2 text-left">
+          <h2 class="text-2xl font-serif font-bold text-secondary">
+            Regional Representatives
+          </h2>
+          <p class="text-xs sm:text-sm text-secondary/70">
+            For fastest service, call or message the agent assigned to your province or nearest farming district:
+          </p>
+        </div>
+
+        <div class="space-y-4">
+          <% representatives.forEach(function(rep) { %>
+            <div class="contact-agent-row bg-white p-5 rounded-2xl border border-sand shadow-sm flex items-center justify-between gap-4">
+              <div class="flex items-center gap-4">
+                <div class="h-12 w-12 rounded-xl <%= rep.color %> text-white flex items-center justify-center font-bold text-xl shrink-0">
+                  <%= rep.name[0] %>
+                </div>
+                <div class="text-left">
+                  <h3 class="font-serif font-bold text-secondary text-base">
+                    <%= rep.name %>
+                  </h3>
+                  <p class="text-xs font-mono font-bold text-primary uppercase">
+                    <%= rep.region %> Hub
+                  </p>
+                  <p class="text-[11px] text-secondary/60">
+                    Direct: <%= rep.phone %>
+                  </p>
+                </div>
+              </div>
+
+              <div class="flex items-center gap-2">
+                <a
+                  href="tel:<%= rep.phone %>"
+                  class="h-9 w-9 rounded-full bg-moss/40 hover:bg-primary text-primary hover:text-white flex items-center justify-center transition"
+                  title="Call Agent directly"
+                >
+                  <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.94.725l.548 2.2a1 1 0 01-.321.988l-1.305.98a10.582 10.582 0 004.872 4.872l.98-1.305a1 1 0 01.988-.321l2.2.548a1 1 0 01.725.94V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                  </svg>
+                </a>
+                <a
+                  href="https://wa.me/260<%= rep.phone.startsWith('0') ? rep.phone.slice(1) : rep.phone %>"
+                  target="_blank"
+                  class="h-9 w-9 rounded-full bg-[#25d366]/20 hover:bg-[#25d366] text-[#25d366] hover:text-white flex items-center justify-center transition"
+                  title="Chat on WhatsApp"
+                >
+                  <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.513 2.262 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.37 9.864-9.799.002-2.63-1.023-5.101-2.885-6.97C16.528 2.008 14.069.98 11.512.98c-5.441 0-9.867 4.371-9.871 9.8.001 1.97.525 3.561 1.517 5.08L2.144 22l6.503-1.705c1.554.85 3.09 1.294 4.6 1.295z"/>
+                  </svg>
+                </a>
+              </div>
+            </div>
+          <% }); %>
+        </div>
+
+        <!-- Corporate Inquiry Card -->
+        <div class="p-6 bg-moss/30 rounded-2xl border border-sage/30 space-y-3 text-left">
+          <h4 class="text-xs font-bold text-primary uppercase tracking-widest font-mono">
+            Direct Corporate Orders
+          </h4>
+          <p class="text-xs text-secondary/80 leading-relaxed font-sans">
+            Need commercial distribution agreements or export consignments? Direct official correspondence can be sent directly to:
+          </p>
+          <a
+            href="mailto:lifecycleorganics@yahoo.com"
+            class="text-sm font-bold text-primary hover:underline block font-mono"
+          >
+            lifecycleorganics@yahoo.com
+          </a>
+        </div>
+
+      </div>
+
+      <!-- Right Column: Interactive Contact Form -->
+      <div class="lg:col-span-7 bg-white p-8 sm:p-12 rounded-[32px] border border-sand shadow-sm space-y-6">
+        
+        <div class="space-y-2 text-left">
+          <span class="text-xs font-bold text-sage uppercase tracking-widest font-mono">
+            Fast Response Form
+          </span>
+          <h2 class="text-3xl font-serif font-bold text-secondary">
+            Send an Agronomic Inquiry
+          </h2>
+          <p class="text-xs sm:text-sm text-secondary/70">
+            Tell us about your crop symptoms or estimated order volume. Our field team typically responds within 24 business hours.
+          </p>
+        </div>
+
+        <!-- Dynamic Success Message Alert (Initially hidden) -->
+        <div id="contact-success-box" class="hidden p-6 bg-moss/60 border border-primary/20 rounded-2xl text-left space-y-3">
+            <div class="flex items-center gap-3">
+                <div class="h-8 w-8 rounded-full bg-primary text-white flex items-center justify-center shrink-0">
+                    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                    </svg>
+                </div>
+                <div>
+                    <h3 class="font-serif font-bold text-primary text-base">Inquiry Submitted Successfully!</h3>
+                    <p class="text-xs text-secondary/80">Thank you for reaching out to Lifecycle Organics.</p>
+                </div>
+            </div>
+            <p class="text-xs text-secondary/80 leading-relaxed font-sans">
+                Our regional agent in your hub has received your message and will review your crop requirements shortly.
+            </p>
+            <button id="reset-contact-form-btn" class="text-xs font-bold text-primary uppercase tracking-wider underline hover:text-forest pt-1 cursor-pointer">
+                Send another message
+            </button>
+        </div>
+
+        <!-- Actual Form -->
+        <div id="contact-form-wrapper">
+          <form id="direct-contact-form" class="space-y-5">
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <!-- Name input -->
+              <div class="space-y-1.5 text-left">
+                <label class="text-[11px] font-bold text-secondary/60 uppercase tracking-wider block">
+                  Your Name / Farm Name *
+                </label>
+                <input
+                  type="text"
+                  id="form-name"
+                  placeholder="e.g. John Banda"
+                  required
+                  class="w-full px-4 py-3 rounded-xl border border-sand focus:outline-none focus:ring-2 focus:ring-primary text-sm text-secondary placeholder-secondary/40"
+                />
+              </div>
+
+              <!-- Email/Phone input -->
+              <div class="space-y-1.5 text-left">
+                <label class="text-[11px] font-bold text-secondary/60 uppercase tracking-wider block">
+                  Phone Number or Email *
+                </label>
+                <input
+                  type="text"
+                  id="form-contact"
+                  placeholder="e.g. 097XXXXXXXX or email"
+                  required
+                  class="w-full px-4 py-3 rounded-xl border border-sand focus:outline-none focus:ring-2 focus:ring-primary text-sm text-secondary placeholder-secondary/40"
+                />
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <!-- Region Selector -->
+              <div class="space-y-1.5 text-left">
+                <label class="text-[11px] font-bold text-secondary/60 uppercase tracking-wider block">
+                  Your Region hub
+                </label>
+                <select
+                  id="form-region"
+                  class="w-full px-4 py-3 rounded-xl border border-sand bg-white focus:outline-none focus:ring-2 focus:ring-primary text-sm text-secondary"
+                >
+                  <option value="Lusaka">Lusaka Province</option>
+                  <option value="Mkushi">Mkushi Area</option>
+                  <option value="Copperbelt">Copperbelt / NW</option>
+                  <option value="Central">Central Province</option>
+                  <option value="Other">Other Provinces / Nationwide</option>
+                </select>
+              </div>
+
+              <!-- Product interest selector -->
+              <div class="space-y-1.5 text-left">
+                <label class="text-[11px] font-bold text-secondary/60 uppercase tracking-wider block">
+                  Product of Interest
+                </label>
+                <select
+                  id="form-product"
+                  class="w-full px-4 py-3 rounded-xl border border-sand bg-white focus:outline-none focus:ring-2 focus:ring-primary text-sm text-secondary"
+                >
+                  <option value="Bio-Fertilizer">Bio-Fertilizer (Nourish Soil)</option>
+                  <option value="Bio-Sulphur">Bio-Sulphur (Defend Maize)</option>
+                  <option value="Bio-Soapcide">Bio-Soapcide (Insecticide Soap)</option>
+                  <option value="Consultancy">General Agronomic Services</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Message box -->
+            <div class="space-y-1.5 text-left">
+              <label class="text-[11px] font-bold text-secondary/60 uppercase tracking-wider block">
+                Message / Order Details
+              </label>
+              <textarea
+                id="form-message"
+                rows="5"
+                placeholder="Specify estimated canister count (5L) or outline your plant symptoms..."
+                class="w-full px-4 py-3 rounded-xl border border-sand focus:outline-none focus:ring-2 focus:ring-primary text-sm text-secondary resize-none placeholder-secondary/40"
+              ></textarea>
+            </div>
+
+            <!-- Submission buttons -->
+            <div class="pt-2">
+              <button
+                type="submit"
+                class="submit-pulse-effect w-full py-3.5 rounded-full bg-primary hover:bg-forest text-white font-bold text-xs uppercase tracking-wider shadow-md transition flex items-center justify-center gap-2 cursor-pointer"
+              >
+                  <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+                  </svg>
+                  Send Direct Inquiry
+              </button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</div>
+
+<%- include('footer') %>

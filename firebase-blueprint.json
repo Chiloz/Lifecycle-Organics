@@ -1,0 +1,186 @@
+{
+  "entities": {
+    "Product": {
+      "title": "Product",
+      "description": "Lifecycle Organics ecological bio-fertilizers and crop defense formulas",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique product slug or identifier"
+        },
+        "name": {
+          "type": "string",
+          "description": "Commercial product title"
+        },
+        "brand": {
+          "type": "string",
+          "description": "Product category banner or brand label"
+        },
+        "tagline": {
+          "type": "string",
+          "description": "Key marketing catchphrase or agronomic promise"
+        },
+        "category": {
+          "type": "string",
+          "description": "Agricultural category (e.g. Bio-Fertilizers, Crop Defense, Pest Control)"
+        },
+        "description": {
+          "type": "string",
+          "description": "Detailed agronomic summary and formulation highlights"
+        },
+        "badge": {
+          "type": "string",
+          "description": "High-impact visual badge (e.g. 10x Faster Growth, 4-in-1 Protection)"
+        },
+        "price": {
+          "type": "number",
+          "description": "Standard retail unit price per 5L canister in Zambian Kwacha (ZMW)"
+        },
+        "image": {
+          "type": "string",
+          "description": "Relative or public URL to high-resolution product photography"
+        },
+        "features": {
+          "type": "array",
+          "description": "List of core product characteristics"
+        },
+        "benefits": {
+          "type": "array",
+          "description": "Bullet points highlighting field and crop advantages"
+        },
+        "specs": {
+          "type": "array",
+          "description": "Technical parameters like volume, dilution, and targets"
+        },
+        "usage": {
+          "type": "string",
+          "description": "Application rate, knapsack sprayer dilution, and timing instructions"
+        },
+        "inStock": {
+          "type": "boolean",
+          "description": "Availability flag for distribution and online inquiries"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "ISO timestamp of product registration"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "ISO timestamp of last specification update"
+        }
+      },
+      "required": ["id", "name", "price"]
+    },
+    "Testimonial": {
+      "title": "Testimonial",
+      "description": "Field results and reviews from commercial growers and cooperatives",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique testimonial record identifier"
+        },
+        "author": {
+          "type": "string",
+          "description": "Full name of the farmer or farm manager"
+        },
+        "role": {
+          "type": "string",
+          "description": "Title or position of the reviewer"
+        },
+        "farmOrCompany": {
+          "type": "string",
+          "description": "Name of the farm, estate, or agricultural cooperative"
+        },
+        "location": {
+          "type": "string",
+          "description": "District or province in Zambia (e.g. Mkushi, Chisamba, Copperbelt)"
+        },
+        "crop": {
+          "type": "string",
+          "description": "Primary crop cultivated (e.g. Maize, Tomatoes, Soya, Wheat)"
+        },
+        "rating": {
+          "type": "number",
+          "description": "Star rating from 1 to 5"
+        },
+        "quote": {
+          "type": "string",
+          "description": "Verbatim field testimonial detailing yield and pest results"
+        },
+        "featured": {
+          "type": "boolean",
+          "description": "Whether to highlight on public homepage"
+        },
+        "approved": {
+          "type": "boolean",
+          "description": "Moderation status by the farm management team"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "ISO timestamp when submitted or recorded"
+        }
+      },
+      "required": ["author", "quote", "rating"]
+    },
+    "Inquiry": {
+      "title": "Inquiry",
+      "description": "Customer purchase inquiry, quote request, or agronomic question",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique inquiry lead identifier"
+        },
+        "name": {
+          "type": "string",
+          "description": "Farmer or buyer contact name"
+        },
+        "contact": {
+          "type": "string",
+          "description": "Phone number, WhatsApp, or email address"
+        },
+        "region": {
+          "type": "string",
+          "description": "Zambian province or farming block"
+        },
+        "product": {
+          "type": "string",
+          "description": "Product of primary interest"
+        },
+        "quantity": {
+          "type": "string",
+          "description": "Requested number of canisters or treated hectares"
+        },
+        "message": {
+          "type": "string",
+          "description": "Specific crop questions, field conditions, or delivery details"
+        },
+        "status": {
+          "type": "string",
+          "description": "Lead status (New, Contacted, Completed)"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "ISO timestamp of submission"
+        }
+      },
+      "required": ["name", "contact"]
+    }
+  },
+  "firestore": {
+    "/products/{productId}": {
+      "schema": "Product",
+      "description": "Public catalog of certified bio-fertilizers and crop defense products"
+    },
+    "/testimonials/{testimonialId}": {
+      "schema": "Testimonial",
+      "description": "Commercial farmer testimonials and agricultural reviews"
+    },
+    "/inquiries/{inquiryId}": {
+      "schema": "Inquiry",
+      "description": "Customer quote requests and regional agent inquiries"
+    }
+  }
+}

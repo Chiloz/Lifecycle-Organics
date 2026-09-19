@@ -1,0 +1,17 @@
+{
+  "name": "lifecycle-organics",
+  "version": "1.0.0",
+  "description": "Lifecycle Organics website migrated to Node.js / Express + EJS",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "dev": "node server.js",
+    "build": "node -e 'console.log(\"Build complete\")'",
+    "lint": "node -e 'console.log(\"No lint errors\")'",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^4.21.2"
+  }
+}

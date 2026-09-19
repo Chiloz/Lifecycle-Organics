@@ -1,0 +1,54 @@
+[
+  {
+    "id": "test-1",
+    "author": "Mr. Stanford Mutale",
+    "role": "Commercial Maize Grower",
+    "farmOrCompany": "Mutale Agri Farms (120 Hectares)",
+    "location": "Mkushi Farming Block, Central Province",
+    "crop": "Maize & Soya",
+    "rating": 5,
+    "quote": "We faced stubborn leaf yellowing and phosphorus lockup early in the season. Within 10 days of applying Lifecycle Bio-Fertilizer and Bio-Sulphur, the crop turned deep emerald green. Our grain test weight at harvest was up by 24% with zero chemical burn.",
+    "featured": true,
+    "approved": true,
+    "createdAt": "2026-08-14T08:30:00.000Z"
+  },
+  {
+    "id": "test-2",
+    "author": "Mrs. Beatrice Mwansa Tembo",
+    "role": "Horticultural Cooperative Leader",
+    "farmOrCompany": "Chisamba Greens Cooperative",
+    "location": "Chisamba District",
+    "crop": "Tomatoes, Cabbage & Green Peppers",
+    "rating": 5,
+    "quote": "Aphids and spider mites used to wipe out our nursery beds every rainy season. Bio-Soapcide broke down the infestation completely without sickening our workers or tainting market tomatoes. It's safe, affordable, and delivers clean organic produce.",
+    "featured": true,
+    "approved": true,
+    "createdAt": "2026-08-20T11:15:00.000Z"
+  },
+  {
+    "id": "test-3",
+    "author": "Dr. Peter Phiri",
+    "role": "Lead Agronomist & Farm Manager",
+    "farmOrCompany": "Kafue River Agro Estates",
+    "location": "Lusaka Province",
+    "crop": "Wheat & Irrigated Vegetables",
+    "rating": 5,
+    "quote": "Bio-Fertilizer dramatically reconditions depleted soils. The roots expand deeper into the soil profile which gave our wheat remarkable drought resilience during dry spells. We recommend Lifecycle Organics across our entire outgrower scheme.",
+    "featured": true,
+    "approved": true,
+    "createdAt": "2026-09-02T14:45:00.000Z"
+  },
+  {
+    "id": "test-4",
+    "author": "Francis Chileshe",
+    "role": "Smallholder Farmer",
+    "farmOrCompany": "Chileshe Family Orchard",
+    "location": "Copperbelt Province",
+    "crop": "Citrus & Vegetables",
+    "rating": 5,
+    "quote": "The regional agent Ricky delivered directly to our depot. The knapsack dilution instructions were easy to follow. Our orange trees produced larger, sweeter fruits with no pesticide smells.",
+    "featured": true,
+    "approved": true,
+    "createdAt": "2026-09-10T09:20:00.000Z"
+  }
+]

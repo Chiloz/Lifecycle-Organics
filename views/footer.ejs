@@ -1,0 +1,84 @@
+    <!-- Reusable Footer -->
+    <footer class="bg-secondary text-cream pt-20 pb-10 border-t border-sand/15 relative overflow-hidden">
+        <!-- Aesthetic background blur highlight -->
+        <div class="absolute -right-24 -bottom-24 w-96 h-96 bg-primary/20 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-8 pb-16 border-b border-sand/10">
+                
+                <!-- Brand section -->
+                <div class="md:col-span-4 space-y-6 text-left">
+                    <div class="flex items-center gap-3 h-10">
+                        <div class="flex items-center">
+                            <img src="/assets/images/LIFECYCLE_logo.webp" alt="Lifecycle Organics Logo" class="h-16 w-auto">
+                        </div>
+                        <div class="flex flex-col leading-none">
+                            <span class="text-lg font-bold font-serif text-cream">Lifecycle</span>
+                            <span class="text-[10px] font-semibold tracking-widest text-sage uppercase font-mono">Organics</span>
+                        </div>
+                    </div>
+                    <p class="text-xs text-cream/70 leading-relaxed font-sans max-w-sm">
+                        Committed to high-yield sustainable agriculture across Zambia. We supply certified bio-fertilizers and pest solutions that protect your crops naturally.
+                    </p>
+                    <div class="flex items-center gap-3">
+                        <span class="h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                        <span class="text-[10px] font-bold uppercase tracking-wider font-mono text-cream/60">Zambian Organic Standard Certified</span>
+                    </div>
+                </div>
+
+                <!-- Fast links -->
+                <div class="md:col-span-3 space-y-4 text-left">
+                    <h4 class="text-xs font-bold uppercase tracking-widest text-accent-tan font-mono">Navigation Links</h4>
+                    <ul class="space-y-2 text-sm text-cream/80 font-sans">
+                        <li><a href="/" class="hover:text-accent-tan transition duration-150">Home Platform</a></li>
+                        <li><a href="/products" class="hover:text-accent-tan transition duration-150">Botanical Formulas</a></li>
+                        <li><a href="/services" class="hover:text-accent-tan transition duration-150">Agronomic Consultations</a></li>
+                        <li><a href="/about" class="hover:text-accent-tan transition duration-150">About Our Mission</a></li>
+                        <li><a href="/contact" class="hover:text-accent-tan transition duration-150">Connect with Agents</a></li>
+                        <li><a href="/admin" class="text-accent-tan/90 hover:text-white transition duration-150 flex items-center gap-1"><span class="text-[10px]">🔒</span> Admin Portal</a></li>
+                    </ul>
+                </div>
+
+                <!-- Products list fast links -->
+                <div class="md:col-span-3 space-y-4 text-left">
+                    <h4 class="text-xs font-bold uppercase tracking-widest text-accent-tan font-mono">Organic Products</h4>
+                    <ul class="space-y-2 text-sm text-cream/80 font-sans">
+                        <li><a href="/products?id=bio-fertilizer" class="hover:text-accent-tan transition duration-150">Bio-Fertilizer (Nourish)</a></li>
+                        <li><a href="/products?id=bio-sulphur" class="hover:text-accent-tan transition duration-150">Bio-Sulphur (Defend)</a></li>
+                        <li><a href="/products?id=bio-soapcide" class="hover:text-accent-tan transition duration-150">Bio-Soapcide (Insecticide)</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact info -->
+                <div class="md:col-span-2 space-y-4 text-left">
+                    <h4 class="text-xs font-bold uppercase tracking-widest text-accent-tan font-mono">Headquarters</h4>
+                    <div class="text-xs text-cream/70 leading-relaxed font-sans space-y-2">
+                        <p class="font-semibold text-cream">Lifecycle Organics Ltd.</p>
+                        <p>Plot 481, Great East Road,</p>
+                        <p>Lusaka, Zambia</p>
+                        <a href="mailto:lifecycleorganics@yahoo.com" class="block font-bold font-mono text-accent-tan hover:underline pt-2">
+                            lifecycleorganics@yahoo.com
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Bottom copyright -->
+            <div class="pt-8 flex flex-col sm:flex-row justify-between items-center text-[11px] text-cream/50 gap-4 font-mono">
+                <p>© <%= new Date().getFullYear() %> Lifecycle Organics Limited. All Rights Reserved.</p>
+                <div class="flex gap-6">
+                    <span>100% Eco-Friendly</span>
+                    <span>Proudly Zambian</span>
+                    <span class="text-cream/30">|</span>
+                    <span class="text-[10px] text-cream/40">
+                      Developed by: <a href="https://josaphatchilokoto.space" target="_blank" rel="noopener noreferrer" class="hover:text-cream transition-colors underline font-sans">Josaphat Chilokoto</a>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JS Scripts -->
+    <script src="/script.js"></script>
+</body>
+</html>
