@@ -194,4 +194,12 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
     }
+
+    // 5. Admin Login trigger from footer "Lifecycle Organics Limited"
+    const phpAdminBtn = document.getElementById('php-admin-login-btn');
+    if (phpAdminBtn) {
+        phpAdminBtn.addEventListener('click', () => {
+            window.location.href = (typeof baseDir !== 'undefined' ? baseDir : '') + 'index.html#/admin';
+        });
+    }
 });
