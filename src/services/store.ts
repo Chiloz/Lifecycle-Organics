@@ -547,12 +547,16 @@ export function addInquiry(inquiry: Omit<SiteInquiry, 'id' | 'createdAt' | 'stat
 
 // ---------------- ADMIN AUTH & PASSWORD API ----------------
 const ADMIN_PASSWORD_KEY = 'lifecycle_organics_admin_password_v1';
-export const DEFAULT_ADMIN_PASSWORD = 'Lifecycle@2026';
+export const DEFAULT_ADMIN_EMAIL = 'lifecyce@login.com';
+export const DEFAULT_ADMIN_PASSWORD = 'organics25';
 
 export function getAdminPassword(): string {
   try {
     const saved = localStorage.getItem(ADMIN_PASSWORD_KEY);
-    return saved || DEFAULT_ADMIN_PASSWORD;
+    if (!saved || saved === 'Lifecycle@2026' || saved === 'organics2026') {
+      return DEFAULT_ADMIN_PASSWORD;
+    }
+    return saved;
   } catch {
     return DEFAULT_ADMIN_PASSWORD;
   }
@@ -584,26 +588,22 @@ export function loginAdmin(email: string, password: string): { success: boolean;
   const cleanPass = password.trim();
   const currentPassword = getAdminPassword();
 
-  // Accept saved password, default password, convenience aliases, or any password >= 3 chars for demo ease
+  // Explicit required credentials:
+  // Email: lifecyce@login.com
+  // Password: organics25 (or customized in admin settings)
+  const isEmailValid = 
+    cleanEmail === 'lifecyce@login.com' || 
+    cleanEmail === 'lifecycle@login.com';
+
   const isPassValid = 
     cleanPass === currentPassword || 
-    cleanPass === DEFAULT_ADMIN_PASSWORD || 
-    cleanPass === 'organics2026' || 
-    cleanPass === 'admin123' ||
-    cleanPass.length >= 3;
-
-  const isEmailValid = cleanEmail.includes('@') || cleanEmail === 'admin' || cleanEmail === 'josaphat';
+    cleanPass === DEFAULT_ADMIN_PASSWORD ||
+    cleanPass === 'organics25';
 
   if (isEmailValid && isPassValid) {
-    const displayName = cleanEmail.includes('josaphat')
-      ? 'Josaphat'
-      : cleanEmail.includes('admin')
-      ? 'Josaphat'
-      : cleanEmail.split('@')[0];
-
     const user: AdminUser = {
-      email: cleanEmail || 'josaphat@lifecycleorganics.co.zm',
-      name: displayName || 'Josaphat',
+      email: 'lifecyce@login.com',
+      name: 'Lifecycle Admin',
       role: 'Site editor',
       lastLogin: new Date().toISOString()
     };
@@ -618,7 +618,7 @@ export function loginAdmin(email: string, password: string): { success: boolean;
 
   return {
     success: false,
-    error: "That email and password don't match. Try again."
+    error: "That email and password don't match. Please enter lifecyce@login.com and the designated password."
   };
 }
 

@@ -2002,7 +2002,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                       </button>
                     </div>
                     <p className="text-[11px] text-[#7c8570] leading-relaxed">
-                      Default: <code className="font-mono font-semibold text-[#2d4a22]">{DEFAULT_ADMIN_PASSWORD}</code>. Aliases: <code className="font-mono">admin123</code>, <code className="font-mono">organics2026</code>.
+                      Default: <code className="font-mono font-semibold text-[#2d4a22]">{DEFAULT_ADMIN_PASSWORD}</code> (login email: <code className="font-mono font-semibold text-[#2d4a22]">lifecyce@login.com</code>).
                     </p>
                   </div>
 

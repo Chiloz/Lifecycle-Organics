@@ -13,8 +13,8 @@ export const AdminLoginModal: React.FC<AdminLoginModalProps> = ({
   onClose,
   onLoginSuccess
 }) => {
-  const [email, setEmail] = useState('josaphat@lifecycleorganics.co.zm');
-  const [password, setPassword] = useState(() => getAdminPassword());
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -37,12 +37,6 @@ export const AdminLoginModal: React.FC<AdminLoginModalProps> = ({
         setError(res.error || "That email and password don't match. Try again.");
       }
     }, 250);
-  };
-
-  const handleAutofill = () => {
-    setEmail('josaphat@lifecycleorganics.co.zm');
-    setPassword(getAdminPassword());
-    setError(null);
   };
 
   return (
@@ -149,7 +143,7 @@ export const AdminLoginModal: React.FC<AdminLoginModalProps> = ({
               </div>
             )}
 
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-4" autoComplete="off">
               {/* Email */}
               <div className="space-y-1.5">
                 <label 
@@ -174,10 +168,15 @@ export const AdminLoginModal: React.FC<AdminLoginModalProps> = ({
                   <input
                     id="admin-email"
                     type="email"
+                    name="admin_login_email"
                     required
+                    autoComplete="off"
+                    autoCorrect="off"
+                    autoCapitalize="none"
+                    spellCheck="false"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="you@lifecycleorganics.co.zm"
+                    placeholder="lifecyce@login.com"
                     className="w-full bg-white border border-[#e0dcd0] rounded-lg py-2.5 pl-9 pr-3 text-[13.5px] text-[#22301c] focus:outline-none focus:border-[#588157] transition-colors"
                   />
                 </div>
@@ -207,7 +206,9 @@ export const AdminLoginModal: React.FC<AdminLoginModalProps> = ({
                   <input
                     id="admin-password"
                     type={showPassword ? 'text' : 'password'}
+                    name="admin_login_password"
                     required
+                    autoComplete="new-password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="••••••••"
@@ -227,7 +228,7 @@ export const AdminLoginModal: React.FC<AdminLoginModalProps> = ({
                 </div>
               </div>
 
-              {/* Remember me & forgot */}
+              {/* Remember me */}
               <div className="flex items-center justify-between pt-1 pb-2 text-[12.5px]">
                 <label className="flex items-center gap-2 cursor-pointer select-none text-[#2d3a22]">
                   <input
@@ -238,14 +239,6 @@ export const AdminLoginModal: React.FC<AdminLoginModalProps> = ({
                   />
                   <span className="text-[#6b7460]">Remember me</span>
                 </label>
-                <button
-                  type="button"
-                  onClick={handleAutofill}
-                  className="text-[#3a5a40] hover:underline font-semibold text-xs cursor-pointer"
-                  title="Autofill staff demo access"
-                >
-                  Quick Fill
-                </button>
               </div>
 
               {/* Submit button */}

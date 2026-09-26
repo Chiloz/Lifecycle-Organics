@@ -55,8 +55,20 @@
             </div>
 
             <!-- Login Form -->
-            <form id="admin-login-form" class="space-y-4">
+            <form id="admin-login-form" class="space-y-4" autocomplete="off">
                 <div>
+                    <label for="admin-email-input" class="block text-xs font-semibold text-secondary mb-1">
+                        Admin Email
+                    </label>
+                    <input 
+                        type="email" 
+                        id="admin-email-input" 
+                        required 
+                        autocomplete="off"
+                        placeholder="lifecyce@login.com" 
+                        class="w-full px-4 py-3 text-sm rounded-xl bg-cream border border-sand focus:ring-2 focus:ring-primary focus:outline-none font-sans mb-3"
+                    >
+
                     <label for="admin-password-input" class="block text-xs font-semibold text-secondary mb-1">
                         Admin Access Password
                     </label>
@@ -65,7 +77,8 @@
                             type="password" 
                             id="admin-password-input" 
                             required 
-                            placeholder="Enter admin password" 
+                            autocomplete="new-password"
+                            placeholder="Enter password" 
                             class="w-full px-4 py-3 text-sm rounded-xl bg-cream border border-sand focus:ring-2 focus:ring-primary focus:outline-none pr-10 font-mono"
                         >
                         <button 
@@ -81,37 +94,37 @@
 
                 <div class="flex items-center justify-between text-xs">
                     <label class="flex items-center gap-2 text-secondary/80 cursor-pointer">
-                        <input type="checkbox" id="admin-remember-me" checked class="rounded text-primary focus:ring-primary h-4 w-4">
+                        <input type="checkbox" id="admin-remember-me" class="rounded text-primary focus:ring-primary h-4 w-4">
                         <span>Remember on this device</span>
                     </label>
                 </div>
 
                 <div id="login-error-msg" class="text-xs font-medium text-red-600 bg-red-50 p-2.5 rounded-xl border border-red-200 hidden">
-                    Incorrect password. Please try again.
+                    Incorrect email or password. Please try again.
                 </div>
 
                 <button 
                     type="submit" 
                     id="btn-login-submit"
-                    class="w-full py-3 rounded-xl bg-primary hover:bg-forest text-cream text-xs font-bold uppercase tracking-wider shadow-md transition"
+                    class="w-full py-3 rounded-xl bg-primary hover:bg-forest text-cream text-xs font-bold uppercase tracking-wider shadow-md transition cursor-pointer"
                 >
                     Unlock Admin Dashboard
                 </button>
             </form>
 
-            <!-- Quick Access Hint Box -->
+            <!-- Access Hint Box -->
             <div class="bg-sand/40 p-4 rounded-2xl border border-sand/80 text-xs space-y-1.5">
-                <div class="flex items-center justify-between">
-                    <span class="font-bold text-secondary font-mono text-[11px] uppercase tracking-wider">Default Password:</span>
-                    <button type="button" id="btn-fill-default-pwd" class="text-primary hover:underline font-bold text-[11px]">
-                        Click to Auto-fill
-                    </button>
+                <span class="font-bold text-secondary font-mono text-[11px] uppercase tracking-wider">Designated Credentials:</span>
+                <div class="bg-white px-3 py-2 rounded-lg border border-sand space-y-1">
+                    <div class="flex items-center justify-between text-xs font-mono">
+                        <span class="text-secondary/70">Email:</span>
+                        <code class="font-bold text-primary">lifecyce@login.com</code>
+                    </div>
+                    <div class="flex items-center justify-between text-xs font-mono">
+                        <span class="text-secondary/70">Password:</span>
+                        <code id="default-pwd-display" class="font-bold text-primary">organics25</code>
+                    </div>
                 </div>
-                <div class="flex items-center justify-between bg-white px-3 py-1.5 rounded-lg border border-sand">
-                    <code id="default-pwd-display" class="font-mono font-bold text-primary text-xs">Lifecycle@2026</code>
-                    <span class="text-[10px] text-secondary/60">or admin123</span>
-                </div>
-                <p class="text-[10px] text-secondary/60">You can update this password at any time in the <strong>Settings</strong> section.</p>
             </div>
 
             <div class="text-center pt-2">
@@ -417,7 +430,7 @@
                             Update Admin Password
                         </button>
                         <button type="button" id="btn-reset-default-pwd" class="px-4 py-2.5 rounded-xl bg-sand hover:bg-taupe text-secondary text-xs font-semibold transition">
-                            Reset to Default (Lifecycle@2026)
+                            Reset to Default (organics25)
                         </button>
                     </div>
                 </form>
