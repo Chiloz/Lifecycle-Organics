@@ -1,0 +1,47 @@
+/* Specific CSS styles for the Lifecycle Organics Contact Page */
+
+/* Form Input Focus state refinements */
+#direct-contact-form input:focus, 
+#direct-contact-form select:focus, 
+#direct-contact-form textarea:focus {
+    border-color: var(--color-primary, #2d4a22);
+    box-shadow: 0 0 0 2px rgb(45 74 34 / 0.15);
+}
+
+/* Contact Representative Card hover state */
+.contact-agent-row {
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.contact-agent-row:hover {
+    transform: translateY(-2px);
+    border-color: var(--color-primary, #2d4a22);
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.04), 0 4px 6px -4px rgb(0 0 0 / 0.04);
+}
+
+/* Shimmer animation on submit buttons */
+.submit-pulse-effect {
+    position: relative;
+    overflow: hidden;
+}
+
+.submit-pulse-effect::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -50%;
+    width: 200%;
+    height: 100%;
+    background: linear-gradient(
+        to right,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.3) 50%,
+        rgba(255, 255, 255, 0) 100%
+    );
+    transform: skewX(-25deg);
+    transition: 0.75s;
+}
+
+.submit-pulse-effect:hover::after {
+    left: 125%;
+}

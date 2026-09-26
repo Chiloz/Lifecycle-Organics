@@ -1,0 +1,45 @@
+/* Specific CSS styles for the Lifecycle Organics Products Catalog Page */
+
+/* Seamless card hover transition scale */
+.product-card-item {
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+}
+
+.product-card-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.05), 0 8px 10px -6px rgb(0 0 0 / 0.05);
+}
+
+/* Custom interactive counter styling */
+.btn-canister-minus, .btn-canister-plus {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-canister-minus:active, .btn-canister-plus:active {
+    transform: scale(0.9);
+}
+
+/* Tab filter button styling refinements */
+.product-filter-btn {
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.product-filter-btn:hover {
+    transform: translateY(-1px);
+}
+
+.product-filter-btn:active {
+    transform: translateY(1px);
+}
+
+/* Highlight badge gradient shimmer */
+@keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+
+.shimmer-badge {
+    background: linear-gradient(90deg, #c29a63 25%, #dfd9cc 50%, #c29a63 75%);
+    background-size: 200% 100%;
+    animation: shimmer 2s infinite linear;
+}

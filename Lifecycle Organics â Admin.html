@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lifecycle Organics — Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,500;0,600;1,500&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#2d4a22; --secondary:#2d3a22; --tan:#d4a373; --sage:#a3b18a;
+  --leaf:#588157; --forest:#3a5a40; --cream:#fdfbf7; --sand:#e9e4db;
+  --moss:#e9edc9; --butter:#fefae0; --taupe:#f0ede6;
+  --ink:#22301c; --line:#e0dcd0;
+  box-sizing:border-box;
+}
+*{box-sizing:inherit; margin:0; padding:0;}
+body{
+  font-family:"Inter",sans-serif; background:var(--cream); color:var(--ink);
+  min-height:100vh; display:flex;
+}
+h1,h2,h3,.serif{font-family:"Lora",Georgia,serif;}
+.mono{font-family:"JetBrains Mono",monospace;}
+
+/* ---------- Sidebar ---------- */
+.sidebar{
+  width:236px; flex-shrink:0; background:var(--secondary); color:var(--taupe);
+  min-height:100vh; padding:26px 18px; display:flex; flex-direction:column; gap:28px;
+}
+.brand{display:flex; align-items:center; gap:10px;}
+.brand-mark{
+  width:34px;height:34px;border-radius:8px;background:linear-gradient(135deg,var(--sage),var(--leaf));
+  display:flex;align-items:center;justify-content:center;color:var(--secondary);font-weight:700;font-family:"Lora",serif;font-size:15px;
+}
+.brand-name{font-family:"Lora",serif;font-size:15px;color:#fff;line-height:1.2;}
+.brand-name span{display:block;font-size:10.5px;color:var(--sage);font-family:"JetBrains Mono",monospace;letter-spacing:.02em;}
+
+nav{display:flex;flex-direction:column;gap:3px;}
+.nav-label{font-size:10.5px;color:#8a9a7e;font-family:"JetBrains Mono",monospace;margin:14px 4px 4px;}
+.nav-item{
+  display:flex; align-items:center; gap:10px; padding:9px 11px; border-radius:8px;
+  color:#c9d0be; font-size:13.5px; cursor:pointer; border:none; background:none; width:100%; text-align:left;
+  font-family:inherit; transition:background .15s;
+}
+.nav-item:hover{background:#38492d;}
+.nav-item.active{background:var(--leaf); color:#fff; font-weight:500;}
+.nav-item .dot{width:6px;height:6px;border-radius:50%;background:var(--tan); flex-shrink:0;}
+.nav-item .count{margin-left:auto; font-size:11px; color:#9fae90; font-family:"JetBrains Mono",monospace;}
+.nav-item.active .count{color:#dfe8d3;}
+
+.sidebar-foot{margin-top:auto; display:flex; gap:10px; align-items:center; padding-top:16px; border-top:1px solid #46563a;}
+.avatar{width:32px;height:32px;border-radius:50%;background:var(--tan);display:flex;align-items:center;justify-content:center;font-weight:600;color:var(--secondary);font-size:13px;}
+.who{font-size:12.5px;color:#dfe4d5; line-height:1.3;}
+.who span{display:block;color:#8a9a7e;font-size:11px;}
+
+/* ---------- Main ---------- */
+main{flex:1; min-width:0;}
+.topbar{
+  display:flex; align-items:center; justify-content:space-between; padding:20px 32px;
+  border-bottom:1px solid var(--line); background:#fff;
+}
+.topbar h1{font-size:20px; font-weight:600; color:var(--secondary);}
+.topbar p{font-size:12.5px; color:#7c8570; margin-top:2px; font-family:"Inter",sans-serif;}
+.btn{
+  border:none; border-radius:8px; padding:10px 16px; font-size:13.5px; font-weight:600;
+  cursor:pointer; font-family:inherit; display:inline-flex; align-items:center; gap:7px;
+}
+.btn-primary{background:var(--leaf); color:#fff;}
+.btn-primary:hover{background:var(--forest);}
+.btn-ghost{background:var(--taupe); color:var(--secondary);}
+.btn-ghost:hover{background:var(--sand);}
+
+.view{padding:28px 32px; display:none;}
+.view.active{display:block;}
+
+/* stat cards */
+.stats{display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-bottom:26px;}
+.stat{background:#fff; border:1px solid var(--line); border-radius:12px; padding:18px 20px;}
+.stat .num{font-family:"Lora",serif; font-size:26px; color:var(--secondary);}
+.stat .lbl{font-size:12px; color:#8a9280; margin-top:3px;}
+.stat .tag{display:inline-block; margin-top:10px; font-size:10.5px; font-family:"JetBrains Mono",monospace; color:var(--forest); background:var(--moss); padding:2px 7px; border-radius:5px;}
+
+.section-title{display:flex; align-items:center; justify-content:space-between; margin-bottom:14px;}
+.section-title h2{font-size:16px; font-weight:600; color:var(--secondary);}
+
+/* destination pill */
+.pill{
+  font-size:10.5px; font-family:"JetBrains Mono",monospace; padding:3px 8px; border-radius:20px;
+  display:inline-flex; align-items:center; gap:5px; white-space:nowrap;
+}
+.pill::before{content:""; width:5px;height:5px;border-radius:50%; background:currentColor;}
+.pill.home{background:#fdf1de; color:#a3661a;}
+.pill.products{background:var(--moss); color:var(--forest);}
+.pill.services{background:#e6eefb; color:#33608f;}
+.pill.about{background:#f3e8f4; color:#7c3f8a;}
+
+/* generic list card */
+.card-row{
+  display:flex; align-items:center; gap:14px; background:#fff; border:1px solid var(--line);
+  border-radius:12px; padding:12px 16px; margin-bottom:10px;
+}
+.thumb{width:52px;height:52px;border-radius:8px;background:var(--sand); flex-shrink:0; background-size:cover; background-position:center;}
+.row-main{flex:1; min-width:0;}
+.row-main .t{font-size:14px; font-weight:600; color:var(--secondary);}
+.row-main .s{font-size:12.5px; color:#8a9280; margin-top:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+.row-meta{display:flex; align-items:center; gap:10px; flex-shrink:0;}
+.status{font-size:11px; padding:3px 9px; border-radius:20px; font-weight:600;}
+.status.live{background:#e3f3e1; color:#2f7a2f;}
+.status.draft{background:#f2ede1; color:#9c7a3c;}
+.icon-btn{width:30px;height:30px;border-radius:7px; border:1px solid var(--line); background:#fff; cursor:pointer; display:flex; align-items:center; justify-content:center; color:#8a9280; flex-shrink:0;}
+.icon-btn:hover{background:var(--taupe);}
+.icon-btn-del:hover{background:#fbe9e7; color:#b4382c; border-color:#f3c9c2;}
+
+@media (max-width:640px){
+  .card-row{flex-wrap:wrap; row-gap:10px; column-gap:12px; align-items:flex-start;}
+  .row-meta{order:-1; flex-basis:100%; width:100%; flex-wrap:wrap;}
+  .row-main{flex-basis:0;}
+}
+
+/* ---- composer ---- */
+.composer{display:grid; grid-template-columns:1.5fr 1fr; gap:22px; align-items:start;}
+.panel{background:#fff; border:1px solid var(--line); border-radius:14px; padding:22px;}
+.field{margin-bottom:18px;}
+.field label{display:block; font-size:12px; font-weight:600; color:var(--secondary); margin-bottom:7px;}
+.field input[type=text], .field textarea, .field select{
+  width:100%; border:1px solid var(--line); border-radius:8px; padding:10px 12px; font-size:13.5px;
+  font-family:inherit; background:var(--cream); color:var(--ink);
+}
+.field textarea{min-height:90px; resize:vertical;}
+.field-hint{font-size:11.5px; color:#8a9280; margin-top:5px;}
+
+.type-toggle{display:flex; gap:8px; margin-bottom:18px;}
+.type-btn{
+  flex:1; border:1.5px solid var(--line); background:#fff; border-radius:9px; padding:11px 8px;
+  text-align:center; cursor:pointer; font-size:12.5px; font-weight:600; color:#8a9280;
+}
+.type-btn.sel{border-color:var(--leaf); background:var(--moss); color:var(--forest);}
+
+.dest-grid{display:grid; grid-template-columns:1fr 1fr; gap:8px;}
+.dest-btn{
+  border:1.5px solid var(--line); border-radius:9px; padding:10px 10px; cursor:pointer; background:#fff;
+  font-size:12.5px; font-weight:600; text-align:left; color:var(--secondary); position:relative;
+}
+.dest-btn small{display:block; font-weight:400; color:#8a9280; font-size:10.5px; margin-top:2px;}
+.dest-btn.sel{border-color:var(--tan); background:#fdf7ee;}
+
+.upload-box{
+  border:1.5px dashed var(--sage); border-radius:10px; padding:22px; text-align:center; color:#8a9280;
+  font-size:12.5px; background:var(--butter); margin-bottom:18px;
+}
+.upload-box b{color:var(--forest);}
+
+/* preview card */
+.preview-label{font-size:11px; font-family:"JetBrains Mono",monospace; color:#8a9280; margin-bottom:10px;}
+.preview{
+  border-radius:12px; overflow:hidden; border:1px solid var(--line); background:var(--taupe);
+}
+.preview-img{height:130px; background:linear-gradient(135deg,var(--sage),var(--forest)); display:flex; align-items:center; justify-content:center; color:#fff; font-family:"Lora",serif; font-size:13px;}
+.preview-body{padding:16px;}
+.preview-body h3{font-size:15px; color:var(--secondary); margin-bottom:6px;}
+.preview-body p{font-size:12.5px; color:#6b7460; line-height:1.5;}
+.preview-where{
+  margin-top:14px; background:#fff; border:1px solid var(--line); border-radius:10px; padding:12px 14px;
+  font-size:12px; color:var(--secondary); display:flex; gap:8px; align-items:flex-start;
+}
+.preview-where b{color:var(--forest);}
+
+.composer-footer{display:flex; justify-content:flex-end; gap:10px; margin-top:20px;}
+
+.hamburger{
+  display:none; width:38px; height:38px; border-radius:8px; border:1px solid var(--line);
+  background:#fff; cursor:pointer; align-items:center; justify-content:center; flex-direction:column; gap:4px;
+}
+.hamburger span{display:block; width:17px; height:2px; background:var(--secondary); border-radius:2px;}
+.overlay{display:none; position:fixed; inset:0; background:rgba(30,38,24,.45); z-index:40;}
+.overlay.show{display:block;}
+
+@media (max-width:920px){
+  .hamburger{display:inline-flex;}
+  .sidebar{
+    position:fixed; inset:0 auto 0 0; z-index:50; transform:translateX(-100%);
+    transition:transform .25s ease; box-shadow:2px 0 24px rgba(0,0,0,.25);
+  }
+  .sidebar.open{transform:translateX(0);}
+  .sidebar-close{display:flex !important;}
+  .stats{grid-template-columns:repeat(2,1fr);}
+  .composer{grid-template-columns:1fr;}
+  .topbar{padding:16px 18px;}
+  .view{padding:20px 18px;}
+}
+</style>
+</head>
+<body>
+
+<div class="overlay" id="overlay" onclick="closeMenu()"></div>
+
+<aside class="sidebar" id="sidebar">
+  <div class="brand">
+    <div class="brand-mark">LO</div>
+    <div class="brand-name">Lifecycle Organics<span>ADMIN</span></div>
+    <button class="sidebar-close" id="sidebarClose" onclick="closeMenu()" style="display:none; margin-left:auto; background:none; border:none; color:#c9d0be; font-size:20px; cursor:pointer; line-height:1;">✕</button>
+  </div>
+  <nav id="nav">
+    <button class="nav-item active" data-view="dashboard"><span class="dot"></span>Dashboard</button>
+    <button class="nav-item" data-view="composer"><span class="dot"></span>New post</button>
+    <div class="nav-label">CONTENT</div>
+    <button class="nav-item" data-view="testimonials"><span class="dot"></span>Testimonials<span class="count">6</span></button>
+    <button class="nav-item" data-view="products"><span class="dot"></span>Products<span class="count">3</span></button>
+    <button class="nav-item" data-view="announcements"><span class="dot"></span>Announcements<span class="count">2</span></button>
+    <div class="nav-label">SITE MAP</div>
+    <button class="nav-item"><span class="dot"></span>Home page feed</button>
+    <button class="nav-item"><span class="dot"></span>Media library</button>
+  </nav>
+  <div class="sidebar-foot">
+    <div class="avatar">J</div>
+    <div class="who">Josaphat<span>Site editor</span></div>
+  </div>
+</aside>
+
+<main>
+
+  <!-- DASHBOARD -->
+  <div class="view active" id="v-dashboard">
+    <div class="topbar">
+      <div><h1>Dashboard</h1><p>Everything posted across the site, at a glance</p></div>
+      <button class="btn btn-primary" onclick="showView('composer')">+ New post</button>
+    </div>
+    <div class="view" style="display:block;padding:28px 32px;">
+      <div class="stats">
+        <div class="stat"><div class="num">6</div><div class="lbl">Testimonials live</div><span class="tag">Home page</span></div>
+        <div class="stat"><div class="num">3</div><div class="lbl">Products published</div><span class="tag">Products page</span></div>
+        <div class="stat"><div class="num">2</div><div class="lbl">Announcements</div><span class="tag">Home page</span></div>
+        <div class="stat"><div class="num">1</div><div class="lbl">Draft awaiting review</div><span class="tag" style="background:var(--butter);color:#9c7a3c;">Unpublished</span></div>
+      </div>
+
+      <div class="section-title"><h2>Recently posted</h2></div>
+      <div class="card-row">
+        <div class="thumb" style="background:linear-gradient(135deg,var(--sage),var(--leaf));"></div>
+        <div class="row-main"><div class="t">Bio-Fertilizer — new packaging shots added</div><div class="s">Product update · by Josaphat</div></div>
+        <div class="row-meta"><span class="pill products">Products page</span><span class="status live">Live</span><button class="icon-btn" title="Edit">✎</button><button class="icon-btn icon-btn-del" title="Delete">🗑</button></div>
+      </div>
+      <div class="card-row">
+        <div class="thumb"></div>
+        <div class="row-main"><div class="t">"Cut our pest control costs by 40% in one season" — Mwansa K.</div><div class="s">Testimonial · Ndola farm cooperative</div></div>
+        <div class="row-meta"><span class="pill home">Home page</span><span class="status live">Live</span><button class="icon-btn" title="Edit">✎</button><button class="icon-btn icon-btn-del" title="Delete">🗑</button></div>
+      </div>
+      <div class="card-row">
+        <div class="thumb" style="background:var(--butter);"></div>
+        <div class="row-main"><div class="t">We're now delivering to Copperbelt farms weekly</div><div class="s">Announcement · text only</div></div>
+        <div class="row-meta"><span class="pill home">Home page</span><span class="status draft">Draft</span><button class="icon-btn" title="Edit">✎</button><button class="icon-btn icon-btn-del" title="Delete">🗑</button></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- COMPOSER -->
+  <div class="view" id="v-composer">
+    <div class="topbar">
+      <div><h1>New post</h1><p>Choose a type and a destination — the preview shows exactly where it lands</p></div>
+      <button class="btn btn-ghost" onclick="showView('dashboard')">Cancel</button>
+    </div>
+    <div style="padding:28px 32px;">
+      <div class="composer">
+        <div class="panel">
+
+          <div class="field"><label>Post type</label>
+            <div class="type-toggle" id="typeToggle">
+              <button class="type-btn sel" data-type="testimonial">Testimonial</button>
+              <button class="type-btn" data-type="product">Product (image + text)</button>
+              <button class="type-btn" data-type="announcement">Text announcement</button>
+            </div>
+          </div>
+
+          <div class="field"><label>Post to</label>
+            <div class="dest-grid" id="destGrid">
+              <button class="dest-btn sel" data-dest="Home page" data-sub="Testimonials carousel">Home page<small>Testimonials carousel</small></button>
+              <button class="dest-btn" data-dest="Products page" data-sub="Catalog grid">Products page<small>Catalog grid</small></button>
+              <button class="dest-btn" data-dest="Services page" data-sub="Client stories block">Services page<small>Client stories block</small></button>
+              <button class="dest-btn" data-dest="Home page" data-sub="Announcement banner">Home page<small>Announcement banner</small></button>
+            </div>
+          </div>
+
+          <div class="upload-box" id="uploadBox">📷 Drag a photo here, or <b>browse files</b><br><span style="font-size:11px;">Recommended 1200×800, JPG or PNG</span></div>
+
+          <div class="field"><label id="nameLabel">Customer name</label><input type="text" id="fName" value="Mwansa Kabaso" placeholder="e.g. Mwansa Kabaso"></div>
+          <div class="field"><label id="subLabel">Farm / company</label><input type="text" id="fSub" value="Ndola Farm Cooperative" placeholder="e.g. Ndola Farm Cooperative"></div>
+          <div class="field"><label id="bodyLabel">Testimonial text</label><textarea id="fBody" placeholder="What did they say?">Since switching to the Bio-Fertilizer line, our yield went up noticeably and we've cut pest control costs by 40% in one season.</textarea></div>
+
+          <div class="composer-footer">
+            <button class="btn btn-ghost">Save as draft</button>
+            <button class="btn btn-primary">Publish</button>
+          </div>
+        </div>
+
+        <div>
+          <div class="preview-label">LIVE PREVIEW</div>
+          <div class="preview">
+            <div class="preview-img" id="prevImg">Photo preview</div>
+            <div class="preview-body">
+              <h3 id="prevName">Mwansa Kabaso</h3>
+              <p id="prevSub" style="font-weight:600;color:var(--leaf);margin-bottom:6px;">Ndola Farm Cooperative</p>
+              <p id="prevBody">"Since switching to the Bio-Fertilizer line, our yield went up noticeably and we've cut pest control costs by 40% in one season."</p>
+            </div>
+          </div>
+          <div class="preview-where">
+            <span>📍</span>
+            <span>This will appear in the <b id="whereText">testimonials carousel on the Home page</b>, right under the hero section.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TESTIMONIALS LIST -->
+  <div class="view" id="v-testimonials">
+    <div class="topbar">
+      <div><h1>Testimonials</h1><p>Shown in the Home page carousel and the Services page client stories block</p></div>
+      <button class="btn btn-primary" onclick="showView('composer')">+ Add testimonial</button>
+    </div>
+    <div style="padding:28px 32px;">
+      <div class="card-row"><div class="thumb"></div><div class="row-main"><div class="t">Mwansa K. — Ndola Farm Cooperative</div><div class="s">"Cut our pest control costs by 40% in one season."</div></div><div class="row-meta"><span class="pill home">Home page</span><span class="status live">Live</span><button class="icon-btn" title="Edit">✎</button><button class="icon-btn icon-btn-del" title="Delete">🗑</button></div></div>
+      <div class="card-row"><div class="thumb"></div><div class="row-main"><div class="t">Bwalya M. — Kabwe Growers Assoc.</div><div class="s">"Soil health improved within the first two months."</div></div><div class="row-meta"><span class="pill services">Services page</span><span class="status live">Live</span><button class="icon-btn" title="Edit">✎</button><button class="icon-btn icon-btn-del" title="Delete">🗑</button></div></div>
+      <div class="card-row"><div class="thumb"></div><div class="row-main"><div class="t">Chanda T. — Lusaka Greenhouse Co.</div><div class="s">"Reliable delivery, consistent product quality."</div></div><div class="row-meta"><span class="pill home">Home page</span><span class="status draft">Draft</span><button class="icon-btn" title="Edit">✎</button><button class="icon-btn icon-btn-del" title="Delete">🗑</button></div></div>
+    </div>
+  </div>
+
+  <!-- PRODUCTS LIST -->
+  <div class="view" id="v-products">
+    <div class="topbar">
+      <div><h1>Products</h1><p>Shown in the Products page catalog grid</p></div>
+      <button class="btn btn-primary" onclick="showView('composer')">+ Add product</button>
+    </div>
+    <div style="padding:28px 32px;">
+      <div class="card-row"><div class="thumb" style="background:linear-gradient(135deg,var(--sage),var(--leaf));"></div><div class="row-main"><div class="t">Bio-Fertilizer</div><div class="s">Organic slow-release fertilizer for row crops</div></div><div class="row-meta"><span class="pill products">Products page</span><span class="status live">Live</span><button class="icon-btn" title="Edit">✎</button><button class="icon-btn icon-btn-del" title="Delete">🗑</button></div></div>
+      <div class="card-row"><div class="thumb" style="background:linear-gradient(135deg,var(--tan),var(--forest));"></div><div class="row-main"><div class="t">Bio-Sulphur</div><div class="s">Natural soil conditioner and pH balancer</div></div><div class="row-meta"><span class="pill products">Products page</span><span class="status live">Live</span><button class="icon-btn" title="Edit">✎</button><button class="icon-btn icon-btn-del" title="Delete">🗑</button></div></div>
+      <div class="card-row"><div class="thumb" style="background:linear-gradient(135deg,var(--sage),var(--tan));"></div><div class="row-main"><div class="t">Bio-Soapcide</div><div class="s">Botanical pest deterrent, safe for pollinators</div></div><div class="row-meta"><span class="pill products">Products page</span><span class="status live">Live</span><button class="icon-btn" title="Edit">✎</button><button class="icon-btn icon-btn-del" title="Delete">🗑</button></div></div>
+    </div>
+  </div>
+
+  <!-- ANNOUNCEMENTS -->
+  <div class="view" id="v-announcements">
+    <div class="topbar">
+      <div><h1>Announcements</h1><p>Text-only posts shown in the Home page banner</p></div>
+      <button class="btn btn-primary" onclick="showView('composer')">+ Add announcement</button>
+    </div>
+    <div style="padding:28px 32px;">
+      <div class="card-row"><div class="thumb" style="background:var(--butter);"></div><div class="row-main"><div class="t">We're now delivering to Copperbelt farms weekly</div><div class="s">Posted 2 days ago</div></div><div class="row-meta"><span class="pill home">Home page</span><span class="status draft">Draft</span><button class="icon-btn" title="Edit">✎</button><button class="icon-btn icon-btn-del" title="Delete">🗑</button></div></div>
+      <div class="card-row"><div class="thumb" style="background:var(--butter);"></div><div class="row-main"><div class="t">New bulk order discounts for cooperatives</div><div class="s">Posted 1 week ago</div></div><div class="row-meta"><span class="pill home">Home page</span><span class="status live">Live</span><button class="icon-btn" title="Edit">✎</button><button class="icon-btn icon-btn-del" title="Delete">🗑</button></div></div>
+    </div>
+  </div>
+
+</main>
+
+<script>
+function showView(id){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.getElementById('v-'+id).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  const target=document.querySelector('.nav-item[data-view="'+id+'"]');
+  if(target) target.classList.add('active');
+  closeMenu();
+}
+
+function openMenu(){
+  document.getElementById('sidebar').classList.add('open');
+  document.getElementById('overlay').classList.add('show');
+}
+function closeMenu(){
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('overlay').classList.remove('show');
+}
+document.querySelectorAll('.topbar').forEach(bar=>{
+  const btn = document.createElement('button');
+  btn.className = 'hamburger';
+  btn.setAttribute('aria-label','Open menu');
+  btn.innerHTML = '<span></span><span></span><span></span>';
+  btn.addEventListener('click', openMenu);
+  bar.insertBefore(btn, bar.firstChild);
+});
+document.querySelectorAll('.nav-item[data-view]').forEach(btn=>{
+  btn.addEventListener('click',()=>showView(btn.dataset.view));
+});
+
+// composer type toggle
+const typeCopy = {
+  testimonial:{name:'Customer name', sub:'Farm / company', body:'Testimonial text', showUpload:false, dest:0},
+  product:{name:'Product name', sub:'Tagline', body:'Product description', showUpload:true, dest:1},
+  announcement:{name:'Headline', sub:null, body:'Announcement text', showUpload:false, dest:3}
+};
+document.querySelectorAll('.type-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.type-btn').forEach(b=>b.classList.remove('sel'));
+    btn.classList.add('sel');
+    const t = typeCopy[btn.dataset.type];
+    document.getElementById('nameLabel').textContent = t.name;
+    const subField = document.getElementById('fSub').closest('.field');
+    subField.style.display = t.sub ? 'block' : 'none';
+    if(t.sub) document.getElementById('subLabel').textContent = t.sub;
+    document.getElementById('bodyLabel').textContent = t.body;
+    document.getElementById('uploadBox').style.display = t.showUpload ? 'block' : 'block';
+    const destBtns = document.querySelectorAll('.dest-btn');
+    destBtns.forEach(d=>d.classList.remove('sel'));
+    destBtns[t.dest].classList.add('sel');
+    updatePreview();
+  });
+});
+document.querySelectorAll('.dest-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.dest-btn').forEach(b=>b.classList.remove('sel'));
+    btn.classList.add('sel');
+    updatePreview();
+  });
+});
+['fName','fSub','fBody'].forEach(id=>{
+  document.getElementById(id).addEventListener('input', updatePreview);
+});
+function updatePreview(){
+  document.getElementById('prevName').textContent = document.getElementById('fName').value || '—';
+  const subVal = document.getElementById('fSub').value;
+  document.getElementById('prevSub').textContent = subVal;
+  document.getElementById('prevSub').style.display = subVal ? 'block':'none';
+  document.getElementById('prevBody').textContent = '"' + document.getElementById('fBody').value + '"';
+  const sel = document.querySelector('.dest-btn.sel');
+  if(sel){
+    document.getElementById('whereText').textContent = sel.dataset.sub.toLowerCase() + ' on the ' + sel.dataset.dest;
+  }
+}
+</script>
+</body>
+</html>

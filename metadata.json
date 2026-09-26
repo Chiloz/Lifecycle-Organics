@@ -1,0 +1,6 @@
+{
+  "name": "Lifecycle Organics",
+  "description": "Modern, responsive product and services showcase for Lifecycle Organics, specializing in high-yield, 100% natural crop nutrition and protection products.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

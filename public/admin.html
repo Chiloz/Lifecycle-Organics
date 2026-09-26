@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Lifecycle Organics Management Portal</title>
+    <link rel="icon" type="image/webp" href="/assets/images/lifecycle_emblem_transparent.webp">
+    <link rel="apple-touch-icon" href="/assets/images/lifecycle_emblem.webp">
+    <meta property="og:image" content="https://lifecycle-organics.web.app/og-image.jpg">
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS Play CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2d4a22',     // Forest Dark Olive
+                        secondary: '#1b2a16',   // Rich Midnight Green
+                        forest: '#142111',      // Extra deep green
+                        leaf: '#4c7a34',        // Organic green
+                        sage: '#8fa882',        // Muted soft green
+                        moss: '#d0ddcb',        // Light sage moss
+                        cream: '#f9f6f0',       // Main Warm backdrop cream
+                        sand: '#e9e4d9',        // Light sand border cream
+                        taupe: '#dfd9cc',       // Warm taupe gray accent
+                        'accent-tan': '#c29a63',// Premium Gold/Tan Accent
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+                        serif: ['Playfair Display', 'Georgia', 'serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body class="min-h-screen bg-cream font-sans flex flex-col text-secondary selection:bg-moss selection:text-primary">
+
+    <!-- ========================================== -->
+    <!-- 0. ADMIN LOGIN / AUTHENTICATION GATEWAY    -->
+    <!-- ========================================== -->
+    <div id="admin-login-screen" class="fixed inset-0 z-50 bg-secondary/80 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl border border-sand shadow-2xl max-w-md w-full p-6 sm:p-8 space-y-6">
+            <div class="text-center space-y-3">
+                <div class="inline-flex items-center justify-center p-3 rounded-2xl bg-moss/50 border border-moss">
+                    <img src="/assets/images/lifecycle_logo_transparent.webp" alt="Lifecycle Organics" class="h-12 w-auto">
+                </div>
+                <div>
+                    <h2 class="text-2xl font-serif font-bold text-secondary">Admin Portal Login</h2>
+                    <p class="text-xs text-secondary/70 mt-1">Lifecycle Organics Management Console</p>
+                </div>
+            </div>
+
+            <!-- Login Form -->
+            <form id="admin-login-form" class="space-y-4">
+                <div>
+                    <label for="admin-password-input" class="block text-xs font-semibold text-secondary mb-1">
+                        Admin Access Password
+                    </label>
+                    <div class="relative">
+                        <input 
+                            type="password" 
+                            id="admin-password-input" 
+                            required 
+                            placeholder="Enter admin password" 
+                            class="w-full px-4 py-3 text-sm rounded-xl bg-cream border border-sand focus:ring-2 focus:ring-primary focus:outline-none pr-10 font-mono"
+                        >
+                        <button 
+                            type="button" 
+                            id="btn-toggle-pwd" 
+                            class="absolute right-3 top-1/2 -translate-y-1/2 text-secondary/50 hover:text-secondary p-1 text-xs"
+                            title="Toggle password visibility"
+                        >
+                            👁️
+                        </button>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between text-xs">
+                    <label class="flex items-center gap-2 text-secondary/80 cursor-pointer">
+                        <input type="checkbox" id="admin-remember-me" checked class="rounded text-primary focus:ring-primary h-4 w-4">
+                        <span>Remember on this device</span>
+                    </label>
+                </div>
+
+                <div id="login-error-msg" class="text-xs font-medium text-red-600 bg-red-50 p-2.5 rounded-xl border border-red-200 hidden">
+                    Incorrect password. Please try again.
+                </div>
+
+                <button 
+                    type="submit" 
+                    id="btn-login-submit"
+                    class="w-full py-3 rounded-xl bg-primary hover:bg-forest text-cream text-xs font-bold uppercase tracking-wider shadow-md transition"
+                >
+                    Unlock Admin Dashboard
+                </button>
+            </form>
+
+            <!-- Quick Access Hint Box -->
+            <div class="bg-sand/40 p-4 rounded-2xl border border-sand/80 text-xs space-y-1.5">
+                <div class="flex items-center justify-between">
+                    <span class="font-bold text-secondary font-mono text-[11px] uppercase tracking-wider">Default Password:</span>
+                    <button type="button" id="btn-fill-default-pwd" class="text-primary hover:underline font-bold text-[11px]">
+                        Click to Auto-fill
+                    </button>
+                </div>
+                <div class="flex items-center justify-between bg-white px-3 py-1.5 rounded-lg border border-sand">
+                    <code id="default-pwd-display" class="font-mono font-bold text-primary text-xs">Lifecycle@2026</code>
+                    <span class="text-[10px] text-secondary/60">or admin123</span>
+                </div>
+                <p class="text-[10px] text-secondary/60">You can update this password at any time in the <strong>Settings</strong> section.</p>
+            </div>
+
+            <div class="text-center pt-2">
+                <a href="/" class="text-xs text-secondary/70 hover:text-primary transition flex items-center justify-center gap-1">
+                    ← Return to Public Website
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- 1. TOP ADMIN HEADER                        -->
+    <!-- ========================================== -->
+    <header class="sticky top-0 z-40 bg-secondary text-cream border-b border-sand/20 shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo & Brand -->
+                <div class="flex items-center gap-3">
+                    <a href="/" class="flex items-center gap-2.5">
+                        <div class="bg-white/95 p-1 rounded-lg shadow-xs">
+                            <img src="/assets/images/lifecycle_emblem_transparent.webp" alt="Logo" class="h-8 w-auto">
+                        </div>
+                        <div class="hidden sm:flex flex-col">
+                            <span class="text-sm font-bold font-serif text-cream">Lifecycle Organics</span>
+                            <span class="text-[10px] font-mono uppercase tracking-widest text-accent-tan">Admin Console</span>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Status Pill & Actions -->
+                <div class="flex items-center gap-2 sm:gap-3">
+                    <!-- Firebase Connection Indicator -->
+                    <div id="firebase-status-pill" class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/30 border border-sand/20 text-xs font-mono">
+                        <span id="firebase-status-dot" class="h-2 w-2 rounded-full bg-amber-400 animate-pulse"></span>
+                        <span id="firebase-status-text" class="text-cream/80 truncate max-w-[130px] sm:max-w-none">Firebase: lifecycle-organics</span>
+                    </div>
+
+                    <!-- Live Site Link -->
+                    <a href="/" target="_blank" class="px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-xs font-semibold text-cream transition hidden sm:flex items-center gap-1.5">
+                        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                        </svg>
+                        <span>Live Site</span>
+                    </a>
+
+                    <!-- Logout Button -->
+                    <button id="btn-admin-logout" class="px-3 py-1.5 rounded-lg bg-red-900/40 hover:bg-red-900/60 text-xs font-semibold text-red-200 border border-red-500/30 transition flex items-center gap-1">
+                        <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                        </svg>
+                        <span>Logout</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ========================================== -->
+    <!-- 2. MAIN DASHBOARD CONTENT                  -->
+    <!-- ========================================== -->
+    <main id="admin-main-container" class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+        
+        <!-- SECTION A: Header Banner & Primary Actions -->
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-sand">
+            <div>
+                <div class="flex items-center gap-2 text-[11px] font-mono uppercase tracking-widest text-primary font-bold">
+                    <span>Executive Portal</span>
+                    <span>•</span>
+                    <span id="current-user-role">Administrator</span>
+                </div>
+                <h1 class="text-2xl sm:text-3xl font-serif font-bold text-secondary mt-0.5">
+                    Operations &amp; Content Management
+                </h1>
+                <p class="text-xs sm:text-sm text-secondary/70 mt-1">
+                    Manage certified organic bio-formulas, publish field reviews, and respond to farmer orders.
+                </p>
+            </div>
+            <div class="flex items-center gap-2.5 flex-wrap">
+                <button id="btn-add-product" class="px-4 py-2.5 rounded-xl bg-primary hover:bg-forest text-cream text-xs font-bold uppercase tracking-wider shadow-sm transition flex items-center gap-1.5">
+                    <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+                    </svg>
+                    + Post Product
+                </button>
+                <button id="btn-add-testimonial" class="px-4 py-2.5 rounded-xl bg-accent-tan hover:bg-accent-tan/90 text-white text-xs font-bold uppercase tracking-wider shadow-sm transition flex items-center gap-1.5">
+                    <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+                    </svg>
+                    + Post Testimonial
+                </button>
+            </div>
+        </div>
+
+        <!-- SECTION B: KPI Overview Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <!-- Metric 1: Products -->
+            <div class="bg-white p-5 rounded-2xl border border-sand shadow-sm space-y-2 hover:border-primary/40 transition">
+                <div class="flex items-center justify-between">
+                    <p class="text-xs font-mono uppercase tracking-widest text-secondary/60">Active Products</p>
+                    <span class="text-xs px-2 py-0.5 rounded-full bg-moss text-primary font-semibold">Catalog</span>
+                </div>
+                <div class="flex items-baseline justify-between">
+                    <span id="metric-products-count" class="text-3xl font-bold font-serif text-primary">3</span>
+                    <span class="text-xs text-secondary/60 font-sans">Organic Formulas</span>
+                </div>
+            </div>
+
+            <!-- Metric 2: Testimonials -->
+            <div class="bg-white p-5 rounded-2xl border border-sand shadow-sm space-y-2 hover:border-primary/40 transition">
+                <div class="flex items-center justify-between">
+                    <p class="text-xs font-mono uppercase tracking-widest text-secondary/60">Farmer Reviews</p>
+                    <span class="text-xs px-2 py-0.5 rounded-full bg-moss text-primary font-semibold">Field Proven</span>
+                </div>
+                <div class="flex items-baseline justify-between">
+                    <span id="metric-testimonials-count" class="text-3xl font-bold font-serif text-secondary">3</span>
+                    <span class="text-xs text-secondary/60 font-sans">Verified Quotes</span>
+                </div>
+            </div>
+
+            <!-- Metric 3: Inquiries -->
+            <div class="bg-white p-5 rounded-2xl border border-sand shadow-sm space-y-2 hover:border-primary/40 transition">
+                <div class="flex items-center justify-between">
+                    <p class="text-xs font-mono uppercase tracking-widest text-secondary/60">Inquiry Leads</p>
+                    <span class="text-xs px-2 py-0.5 rounded-full bg-sand text-secondary font-semibold">Orders</span>
+                </div>
+                <div class="flex items-baseline justify-between">
+                    <span id="metric-inquiries-count" class="text-3xl font-bold font-serif text-accent-tan">0</span>
+                    <span class="text-xs text-secondary/60 font-sans">Customer Inquiries</span>
+                </div>
+            </div>
+
+            <!-- Metric 4: Firebase -->
+            <div class="bg-white p-5 rounded-2xl border border-sand shadow-sm space-y-2 hover:border-primary/40 transition">
+                <div class="flex items-center justify-between">
+                    <p class="text-xs font-mono uppercase tracking-widest text-secondary/60">Cloud Database</p>
+                    <button id="btn-quick-config" class="text-xs text-primary underline hover:text-forest">Settings</button>
+                </div>
+                <div class="flex items-baseline justify-between">
+                    <span id="metric-firebase-status" class="text-base font-bold font-mono text-emerald-600">lifecycle-organics</span>
+                    <span class="text-xs text-secondary/60 font-mono">Firestore</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION C: Tab Navigation Bar -->
+        <div class="border-b border-sand flex items-center gap-2 sm:gap-4 overflow-x-auto pb-1 text-xs sm:text-sm font-semibold">
+            <button class="nav-tab active px-4 py-2.5 border-b-2 border-primary text-primary transition flex items-center gap-2 whitespace-nowrap" data-target="tab-products">
+                <span>🌿 Products Catalog</span>
+            </button>
+            <button class="nav-tab px-4 py-2.5 border-b-2 border-transparent text-secondary/70 hover:text-primary transition flex items-center gap-2 whitespace-nowrap" data-target="tab-testimonials">
+                <span>⭐ Farmer Testimonials</span>
+            </button>
+            <button class="nav-tab px-4 py-2.5 border-b-2 border-transparent text-secondary/70 hover:text-primary transition flex items-center gap-2 whitespace-nowrap" data-target="tab-inquiries">
+                <span>📬 Customer Inquiries</span>
+            </button>
+            <button class="nav-tab px-4 py-2.5 border-b-2 border-transparent text-secondary/70 hover:text-primary transition flex items-center gap-2 whitespace-nowrap" data-target="tab-firebase">
+                <span>⚙️ System &amp; Security Settings</span>
+            </button>
+        </div>
+
+        <!-- ================================================== -->
+        <!-- TAB 1: PRODUCTS CATALOG SECTION                     -->
+        <!-- ================================================== -->
+        <div id="tab-products" class="tab-pane space-y-6">
+            <!-- Filter & Search Toolbar -->
+            <div class="bg-white p-4 sm:p-5 rounded-2xl border border-sand shadow-sm flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
+                <div class="flex items-center gap-3 flex-wrap">
+                    <div class="relative flex-grow sm:flex-grow-0 sm:w-64">
+                        <input type="text" id="search-products" placeholder="Search by name, brand, feature..." class="w-full pl-9 pr-3.5 py-2 rounded-xl bg-cream border border-sand text-xs focus:ring-1 focus:ring-primary focus:outline-none">
+                        <svg class="h-4 w-4 text-secondary/50 absolute left-3 top-1/2 -translate-y-1/2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                    </div>
+
+                    <select id="filter-product-category" class="px-3.5 py-2 rounded-xl bg-cream border border-sand text-xs focus:ring-1 focus:ring-primary focus:outline-none">
+                        <option value="ALL">All Categories</option>
+                        <option value="Bio-Fertilizers">Bio-Fertilizers</option>
+                        <option value="Crop Defense">Crop Defense</option>
+                        <option value="Organic Pest Control">Organic Pest Control</option>
+                        <option value="Growth Enhancers">Growth Enhancers</option>
+                    </select>
+                </div>
+
+                <div class="flex items-center justify-between sm:justify-end gap-3 text-xs text-secondary/70">
+                    <span id="products-counter-badge" class="font-mono font-semibold">Showing all products</span>
+                </div>
+            </div>
+
+            <!-- Products Grid Container -->
+            <div id="products-list-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Dynamically populated product cards -->
+                <div class="col-span-full py-12 text-center text-secondary/60">
+                    Loading products...
+                </div>
+            </div>
+        </div>
+
+        <!-- ================================================== -->
+        <!-- TAB 2: FARMER TESTIMONIALS SECTION                 -->
+        <!-- ================================================== -->
+        <div id="tab-testimonials" class="tab-pane hidden space-y-6">
+            <!-- Filter & Search Toolbar -->
+            <div class="bg-white p-4 sm:p-5 rounded-2xl border border-sand shadow-sm flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
+                <div>
+                    <h2 class="text-lg font-serif font-bold text-secondary">
+                        Field Reviews &amp; Farmer Quotes
+                    </h2>
+                    <p class="text-xs text-secondary/70">Control which testimonials are highlighted on the public homepage.</p>
+                </div>
+
+                <div class="flex items-center gap-3">
+                    <select id="filter-testimonial-visibility" class="px-3.5 py-2 rounded-xl bg-cream border border-sand text-xs focus:ring-1 focus:ring-primary focus:outline-none">
+                        <option value="ALL">All Testimonials</option>
+                        <option value="FEATURED">Homepage Featured Only</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Testimonials Grid Container -->
+            <div id="testimonials-list-container" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Dynamically populated testimonial cards -->
+                <div class="col-span-full py-12 text-center text-secondary/60">
+                    Loading testimonials...
+                </div>
+            </div>
+        </div>
+
+        <!-- ================================================== -->
+        <!-- TAB 3: CUSTOMER INQUIRIES & ORDERS INBOX            -->
+        <!-- ================================================== -->
+        <div id="tab-inquiries" class="tab-pane hidden space-y-6">
+            <div class="bg-white p-4 sm:p-5 rounded-2xl border border-sand shadow-sm flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
+                <div>
+                    <h2 class="text-lg font-serif font-bold text-secondary">
+                        Direct Customer Inquiries &amp; Orders
+                    </h2>
+                    <p class="text-xs text-secondary/70">Leads captured from the canister quote calculator and contact form.</p>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="text-xs text-secondary/60 font-mono">Live customer log</span>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl border border-sand shadow-sm overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs">
+                        <thead class="bg-sand/30 border-b border-sand font-mono uppercase text-secondary/70">
+                            <tr>
+                                <th class="p-4">Customer</th>
+                                <th class="p-4">Contact Info</th>
+                                <th class="p-4">Region / Product</th>
+                                <th class="p-4">Quantity</th>
+                                <th class="p-4">Notes</th>
+                                <th class="p-4">Date</th>
+                                <th class="p-4">Status &amp; Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="inquiries-table-body" class="divide-y divide-sand/40">
+                            <tr>
+                                <td colspan="7" class="p-8 text-center text-secondary/60">Loading inquiries...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================================================== -->
+        <!-- TAB 4: SYSTEM & SECURITY SETTINGS SECTION          -->
+        <!-- ================================================== -->
+        <div id="tab-firebase" class="tab-pane hidden space-y-8">
+            
+            <!-- SECTION 4A: ADMIN ACCESS & PASSWORD MANAGER -->
+            <div class="bg-white p-6 sm:p-8 rounded-3xl border border-sand shadow-sm space-y-6">
+                <div class="border-b border-sand pb-4 flex items-center justify-between">
+                    <div>
+                        <h2 class="text-xl font-serif font-bold text-secondary flex items-center gap-2">
+                            <span>🔐 Admin Access &amp; Password</span>
+                        </h2>
+                        <p class="text-xs sm:text-sm text-secondary/70 mt-1">
+                            Change your admin portal login password. The password is saved securely on this browser.
+                        </p>
+                    </div>
+                    <span class="text-xs font-mono font-bold px-3 py-1 rounded-full bg-moss text-primary">Active Session</span>
+                </div>
+
+                <form id="form-change-password" class="space-y-4 max-w-lg">
+                    <div>
+                        <label class="block text-xs font-semibold text-secondary mb-1">Current Password *</label>
+                        <input type="password" id="input-current-pwd" required placeholder="Enter current password" class="w-full px-3 py-2 text-xs rounded-xl bg-cream border border-sand font-mono focus:ring-1 focus:ring-primary focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-secondary mb-1">New Admin Password *</label>
+                        <input type="password" id="input-new-pwd" required minlength="6" placeholder="At least 6 characters" class="w-full px-3 py-2 text-xs rounded-xl bg-cream border border-sand font-mono focus:ring-1 focus:ring-primary focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-secondary mb-1">Confirm New Password *</label>
+                        <input type="password" id="input-confirm-pwd" required minlength="6" placeholder="Re-type new password" class="w-full px-3 py-2 text-xs rounded-xl bg-cream border border-sand font-mono focus:ring-1 focus:ring-primary focus:outline-none">
+                    </div>
+
+                    <div id="password-feedback" class="text-xs font-mono p-3 rounded-xl hidden"></div>
+
+                    <div class="flex items-center gap-3 pt-2">
+                        <button type="submit" class="px-5 py-2.5 rounded-xl bg-primary hover:bg-forest text-cream text-xs font-bold uppercase tracking-wider shadow-sm transition">
+                            Update Admin Password
+                        </button>
+                        <button type="button" id="btn-reset-default-pwd" class="px-4 py-2.5 rounded-xl bg-sand hover:bg-taupe text-secondary text-xs font-semibold transition">
+                            Reset to Default (Lifecycle@2026)
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- SECTION 4B: FIREBASE PROJECT CONFIGURATION -->
+            <div class="bg-white p-6 sm:p-8 rounded-3xl border border-sand shadow-sm space-y-6">
+                <div class="border-b border-sand pb-4">
+                    <h2 class="text-xl font-serif font-bold text-secondary flex items-center gap-2">
+                        <svg class="h-5 w-5 text-accent-tan" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M4.68 18.23L8.03 2.06c.09-.43.68-.53.92-.16l3.41 5.39L4.68 18.23zm15.75-.41l-2.09-13c-.07-.44-.64-.59-.92-.25L3.6 18.57l7.74 4.34c.4.22.88.22 1.28 0l7.81-5.09z"/>
+                        </svg>
+                        Firebase Cloud Project Integration
+                    </h2>
+                    <p class="text-xs sm:text-sm text-secondary/70 mt-1">
+                        Currently connected to project: <strong class="text-primary font-mono">lifecycle-organics</strong>. Credentials are pre-configured.
+                    </p>
+                </div>
+
+                <!-- Credentials Editor Form -->
+                <form id="firebase-config-form" class="space-y-4 max-w-2xl">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-mono uppercase text-secondary/70 mb-1">Project ID</label>
+                            <input type="text" id="fb-projectId" class="w-full px-3 py-2 text-xs rounded-xl bg-cream border border-sand font-mono focus:ring-1 focus:ring-primary focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-mono uppercase text-secondary/70 mb-1">API Key</label>
+                            <input type="text" id="fb-apiKey" class="w-full px-3 py-2 text-xs rounded-xl bg-cream border border-sand font-mono focus:ring-1 focus:ring-primary focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-mono uppercase text-secondary/70 mb-1">Auth Domain</label>
+                            <input type="text" id="fb-authDomain" class="w-full px-3 py-2 text-xs rounded-xl bg-cream border border-sand font-mono focus:ring-1 focus:ring-primary focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-mono uppercase text-secondary/70 mb-1">Storage Bucket</label>
+                            <input type="text" id="fb-storageBucket" class="w-full px-3 py-2 text-xs rounded-xl bg-cream border border-sand font-mono focus:ring-1 focus:ring-primary focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-mono uppercase text-secondary/70 mb-1">Messaging Sender ID</label>
+                            <input type="text" id="fb-messagingSenderId" class="w-full px-3 py-2 text-xs rounded-xl bg-cream border border-sand font-mono focus:ring-1 focus:ring-primary focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-mono uppercase text-secondary/70 mb-1">App ID</label>
+                            <input type="text" id="fb-appId" class="w-full px-3 py-2 text-xs rounded-xl bg-cream border border-sand font-mono focus:ring-1 focus:ring-primary focus:outline-none">
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-3 pt-2">
+                        <button type="submit" class="px-5 py-2.5 rounded-xl bg-primary hover:bg-forest text-cream text-xs font-bold uppercase tracking-wider shadow-sm transition">
+                            Save Configuration
+                        </button>
+                        <button type="button" id="btn-test-firebase" class="px-5 py-2.5 rounded-xl bg-taupe/50 hover:bg-taupe text-secondary text-xs font-bold uppercase tracking-wider transition">
+                            Test Firestore Connection
+                        </button>
+                    </div>
+
+                    <div id="firebase-test-feedback" class="text-xs font-mono p-3 rounded-xl hidden"></div>
+                </form>
+            </div>
+
+            <!-- SECTION 4C: GITHUB & DEPLOYMENT GUIDE -->
+            <div class="bg-white p-6 sm:p-8 rounded-3xl border border-sand shadow-sm space-y-4">
+                <h3 class="text-lg font-bold text-secondary font-serif flex items-center gap-2">
+                    <span>🚀 Push to GitHub &amp; Firebase Hosting</span>
+                </h3>
+                <p class="text-xs text-secondary/70">
+                    A GitHub Actions workflow is pre-configured in <code>.github/workflows/firebase-hosting-merge.yml</code>. Whenever you push to GitHub, it will automatically build and deploy this website to Firebase Hosting.
+                </p>
+                <div class="space-y-2 text-xs text-secondary/80 font-mono bg-sand/30 p-4 rounded-2xl border border-sand">
+                    <p>1. In GitHub repo settings -> Secrets and variables -> Actions, add Secret:</p>
+                    <p class="pl-4 font-bold text-primary">FIREBASE_SERVICE_ACCOUNT_LIFECYCLE_ORGANICS = &lt;Your downloaded JSON key&gt;</p>
+                    <p>2. Push your code to GitHub:</p>
+                    <p class="pl-4 text-secondary/90">git add . && git commit -m "Update portal" && git push</p>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- ========================================== -->
+    <!-- 3. PRODUCT MODAL (Add / Edit)              -->
+    <!-- ========================================== -->
+    <div id="modal-product" class="fixed inset-0 bg-secondary/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-3xl border border-sand shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 sm:p-8 space-y-6">
+            <div class="flex items-center justify-between border-b border-sand pb-4">
+                <h3 id="modal-product-title" class="text-xl font-serif font-bold text-secondary">
+                    Add New Organic Product
+                </h3>
+                <button id="modal-product-close" class="p-2 text-secondary/60 hover:text-secondary rounded-lg">
+                    ✕
+                </button>
+            </div>
+
+            <form id="product-form" class="space-y-4">
+                <input type="hidden" id="prod-id">
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-secondary mb-1">Product Name *</label>
+                        <input type="text" id="prod-name" required placeholder="e.g. Bio-Fertilizer 10L" class="w-full px-3 py-2 text-xs rounded-xl bg-cream border border-sand focus:ring-1 focus:ring-primary focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-secondary mb-1">Brand / Banner Label</label>
+                        <input type="text" id="prod-brand" placeholder="e.g. SOIL STIMULANT" class="w-full px-3 py-2 text-xs rounded-xl bg-cream border border-sand focus:ring-1 focus:ring-primary focus:outline-none">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-secondary mb-1">Category</label>
+                        <select id="prod-category" class="w-full px-3 py-2 text-xs rounded-xl bg-cream border border-sand focus:ring-1 focus:ring-primary focus:outline-none">
+                            <option value="Bio-Fertilizers">Bio-Fertilizers</option>
+                            <option value="Crop Defense">Crop Defense</option>
+                            <option value="Organic Pest Control">Organic Pest Control</option>
+                            <option value="Growth Enhancers">Growth Enhancers</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-secondary mb-1">Price (ZMW) *</label>
+                        <input type="number" id="prod-price" required min="0" placeholder="150" class="w-full px-3 py-2 text-xs rounded-xl bg-cream border border-sand focus:ring-1 focus:ring-primary focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-secondary mb-1">Visual Badge</label>
+                        <input type="text" id="prod-badge" placeholder="e.g. 10x Faster Growth" class="w-full px-3 py-2 text-xs rounded-xl bg-cream border border-sand focus:ring-1 focus:ring-primary focus:outline-none">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-secondary mb-1">Tagline</label>
+                    <input type="text" id="prod-tagline" placeholder="e.g. Nourishes Soil, Boosts Growth" class="w-full px-3 py-2 text-xs rounded-xl bg-cream border border-sand focus:ring-1 focus:ring-primary focus:outline-none">
+                </div>
+
+                <!-- Product Image Selection -->
+                <div>
+                    <label class="block text-xs font-semibold text-secondary mb-1">Product Photography</label>
+                    <div class="flex items-center gap-2 mb-2">
+                        <input type="text" id="prod-image" placeholder="/assets/images/..." class="w-full px-3 py-2 text-xs rounded-xl bg-cream border border-sand focus:ring-1 focus:ring-primary focus:outline-none">
+                    </div>
+                    <div class="flex items-center gap-2 flex-wrap">
+                        <span class="text-[11px] text-secondary/60">Presets:</span>
+                        <button type="button" class="btn-preset-img px-2.5 py-1 text-[10px] bg-sand rounded-lg hover:bg-moss text-primary font-bold" data-img="/assets/images/bio_fertilizer_1783345223620.jpg">Fertilizer Canister</button>
+                        <button type="button" class="btn-preset-img px-2.5 py-1 text-[10px] bg-sand rounded-lg hover:bg-moss text-primary font-bold" data-img="/assets/images/bio_sulphur_1783345245681.jpg">Bio-Sulphur Canister</button>
+                        <button type="button" class="btn-preset-img px-2.5 py-1 text-[10px] bg-sand rounded-lg hover:bg-moss text-primary font-bold" data-img="/assets/images/bio_soapcide_1783345266462.jpg">Soapcide Canister</button>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-secondary mb-1">Description</label>
+                    <textarea id="prod-description" rows="3" placeholder="Explain the formulation, soil impact, and target plants..." class="w-full px-3 py-2 text-xs rounded-xl bg-cream border border-sand focus:ring-1 focus:ring-primary focus:outline-none"></textarea>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-secondary mb-1">Features (comma separated)</label>
+                    <input type="text" id="prod-features" placeholder="100% Organic & Safe, Prevents Yellowing, Nitrogen Fixation" class="w-full px-3 py-2 text-xs rounded-xl bg-cream border border-sand focus:ring-1 focus:ring-primary focus:outline-none">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-secondary mb-1">Usage &amp; Dilution Instructions</label>
+                    <textarea id="prod-usage" rows="2" placeholder="e.g. Mix 50ml per 10L knapsack sprayer..." class="w-full px-3 py-2 text-xs rounded-xl bg-cream border border-sand focus:ring-1 focus:ring-primary focus:outline-none"></textarea>
+                </div>
+
+                <div class="flex items-center justify-end gap-3 pt-4 border-t border-sand">
+                    <button type="button" id="modal-product-cancel" class="px-5 py-2.5 rounded-xl bg-sand hover:bg-taupe text-secondary text-xs font-bold uppercase tracking-wider transition">
+                        Cancel
+                    </button>
+                    <button type="submit" class="px-6 py-2.5 rounded-xl bg-primary hover:bg-forest text-cream text-xs font-bold uppercase tracking-wider shadow-md transition">
+                        Save Product
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- 4. TESTIMONIAL MODAL (Add / Edit)          -->
+    <!-- ========================================== -->
+    <div id="modal-testimonial" class="fixed inset-0 bg-secondary/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-3xl border border-sand shadow-2xl max-w-xl w-full max-h-[90vh] overflow-y-auto p-6 sm:p-8 space-y-6">
+            <div class="flex items-center justify-between border-b border-sand pb-4">
+                <h3 id="modal-testimonial-title" class="text-xl font-serif font-bold text-secondary">
+                    Post Farmer Testimonial
+                </h3>
+                <button id="modal-testimonial-close" class="p-2 text-secondary/60 hover:text-secondary rounded-lg">
+                    ✕
+                </button>
+            </div>
+
+            <form id="testimonial-form" class="space-y-4">
+                <input type="hidden" id="test-id">
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-secondary mb-1">Farmer / Reviewer Name *</label>
+                        <input type="text" id="test-author" required placeholder="e.g. Stanford Mutale" class="w-full px-3 py-2 text-xs rounded-xl bg-cream border border-sand focus:ring-1 focus:ring-primary focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-secondary mb-1">Role / Farm Title</label>
+                        <input type="text" id="test-role" placeholder="e.g. Commercial Maize Grower" class="w-full px-3 py-2 text-xs rounded-xl bg-cream border border-sand focus:ring-1 focus:ring-primary focus:outline-none">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-secondary mb-1">Farm / Cooperative Name</label>
+                        <input type="text" id="test-farm" placeholder="e.g. Mutale Agri Farms" class="w-full px-3 py-2 text-xs rounded-xl bg-cream border border-sand focus:ring-1 focus:ring-primary focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-secondary mb-1">Location / District</label>
+                        <input type="text" id="test-location" placeholder="e.g. Mkushi Farming Block" class="w-full px-3 py-2 text-xs rounded-xl bg-cream border border-sand focus:ring-1 focus:ring-primary focus:outline-none">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-secondary mb-1">Crops Cultivated</label>
+                        <input type="text" id="test-crop" placeholder="e.g. Maize, Soya, Tomatoes" class="w-full px-3 py-2 text-xs rounded-xl bg-cream border border-sand focus:ring-1 focus:ring-primary focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-secondary mb-1">Star Rating (1 to 5)</label>
+                        <select id="test-rating" class="w-full px-3 py-2 text-xs rounded-xl bg-cream border border-sand focus:ring-1 focus:ring-primary focus:outline-none">
+                            <option value="5">★★★★★ (5 Stars - Outstanding)</option>
+                            <option value="4">★★★★☆ (4 Stars - Highly Effective)</option>
+                            <option value="3">★★★☆☆ (3 Stars - Satisfactory)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-secondary mb-1">Testimonial Quote *</label>
+                    <textarea id="test-quote" required rows="4" placeholder="Detail the results: crop color, yield increase, pest elimination..." class="w-full px-3 py-2 text-xs rounded-xl bg-cream border border-sand focus:ring-1 focus:ring-primary focus:outline-none"></textarea>
+                </div>
+
+                <div class="flex items-center gap-3">
+                    <input type="checkbox" id="test-featured" checked class="h-4 w-4 rounded text-primary focus:ring-primary">
+                    <label for="test-featured" class="text-xs text-secondary font-semibold">Feature on Public Homepage</label>
+                </div>
+
+                <div class="flex items-center justify-end gap-3 pt-4 border-t border-sand">
+                    <button type="button" id="modal-testimonial-cancel" class="px-5 py-2.5 rounded-xl bg-sand hover:bg-taupe text-secondary text-xs font-bold uppercase tracking-wider transition">
+                        Cancel
+                    </button>
+                    <button type="submit" class="px-6 py-2.5 rounded-xl bg-accent-tan hover:bg-accent-tan/90 text-white text-xs font-bold uppercase tracking-wider shadow-md transition">
+                        Publish Testimonial
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Client-side Controller Script -->
+    <script type="module" src="/js/admin-app.js"></script>
+</body>
+</html>

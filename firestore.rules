@@ -1,0 +1,75 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() > 0 && id.size() <= 64 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function isValidProduct(data) {
+      return data.keys().hasAll(['id', 'name', 'price']) &&
+        data.name is string && data.name.size() > 0 && data.name.size() <= 200 &&
+        data.price is number && data.price >= 0 &&
+        (!('brand' in data) || (data.brand is string && data.brand.size() <= 100)) &&
+        (!('tagline' in data) || (data.tagline is string && data.tagline.size() <= 200)) &&
+        (!('description' in data) || (data.description is string && data.description.size() <= 2000)) &&
+        (!('badge' in data) || (data.badge is string && data.badge.size() <= 100)) &&
+        (!('image' in data) || (data.image is string && data.image.size() <= 500)) &&
+        (!('category' in data) || (data.category is string && data.category.size() <= 100)) &&
+        (!('usage' in data) || (data.usage is string && data.usage.size() <= 2000)) &&
+        (!('inStock' in data) || data.inStock is bool);
+    }
+
+    function isValidTestimonial(data) {
+      return data.keys().hasAll(['author', 'quote', 'rating']) &&
+        data.author is string && data.author.size() > 0 && data.author.size() <= 120 &&
+        data.quote is string && data.quote.size() > 0 && data.quote.size() <= 2000 &&
+        data.rating is number && data.rating >= 1 && data.rating <= 5 &&
+        (!('role' in data) || (data.role is string && data.role.size() <= 120)) &&
+        (!('farmOrCompany' in data) || (data.farmOrCompany is string && data.farmOrCompany.size() <= 150)) &&
+        (!('location' in data) || (data.location is string && data.location.size() <= 120)) &&
+        (!('crop' in data) || (data.crop is string && data.crop.size() <= 80)) &&
+        (!('featured' in data) || data.featured is bool) &&
+        (!('approved' in data) || data.approved is bool);
+    }
+
+    function isValidInquiry(data) {
+      return data.keys().hasAll(['name', 'contact']) &&
+        data.name is string && data.name.size() > 0 && data.name.size() <= 120 &&
+        data.contact is string && data.contact.size() > 0 && data.contact.size() <= 120 &&
+        (!('region' in data) || (data.region is string && data.region.size() <= 100)) &&
+        (!('product' in data) || (data.product is string && data.product.size() <= 150)) &&
+        (!('quantity' in data) || (data.quantity is string && data.quantity.size() <= 100)) &&
+        (!('message' in data) || (data.message is string && data.message.size() <= 2000)) &&
+        (!('status' in data) || (data.status is string && data.status.size() <= 50));
+    }
+
+    // Products collection: public view, management with schema validation
+    match /products/{productId} {
+      allow read: if true;
+      allow create: if isValidId(productId) && isValidProduct(request.resource.data);
+      allow update: if isValidId(productId) && isValidProduct(request.resource.data);
+      allow delete: if isValidId(productId);
+    }
+
+    // Testimonials collection: public view and management with schema validation
+    match /testimonials/{testimonialId} {
+      allow read: if true;
+      allow create: if isValidId(testimonialId) && isValidTestimonial(request.resource.data);
+      allow update: if isValidId(testimonialId) && isValidTestimonial(request.resource.data);
+      allow delete: if isValidId(testimonialId);
+    }
+
+    // Customer inquiries: public submission, dashboard review
+    match /inquiries/{inquiryId} {
+      allow read: if true;
+      allow create: if isValidId(inquiryId) && isValidInquiry(request.resource.data);
+      allow update, delete: if isValidId(inquiryId);
+    }
+  }
+}

@@ -1,0 +1,60 @@
+/* Custom Styling Additions for Lifecycle Organics PHP Version */
+
+/* Smooth document scrolling natively */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Elegant styled scrollbars matching the organic forest palette */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #f9f6f0; /* cream */
+}
+::-webkit-scrollbar-thumb {
+    background: #8fa882; /* sage */
+    border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #2d4a22; /* primary dark olive */
+}
+
+/* Custom Fade Animation classes for smooth mountings */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Custom Backdrop Overlay shadows for liquid glass headers */
+.shadow-sm\/30 {
+    box-shadow: 0 1px 2px 0 rgba(45, 74, 34, 0.05), 0 1px 4px 0 rgba(45, 74, 34, 0.02);
+}
+
+.shadow-md\/40 {
+    box-shadow: 0 4px 6px -1px rgba(45, 74, 34, 0.08), 0 2px 4px -1px rgba(45, 74, 34, 0.04);
+}
+
+/* Form input styling transitions */
+input, select, textarea {
+    transition: all 0.2s ease-in-out;
+}
+input:focus, select:focus, textarea:focus {
+    border-color: #2d4a22 !important;
+    box-shadow: 0 0 0 3px rgba(45, 74, 34, 0.12) !important;
+}
+
+/* Premium gradient overlay for banner segments */
+.bg-gradient-banner {
+    background: linear-gradient(135deg, #1b2a16 0%, #142111 60%, #2d4a22 100%);
+}
