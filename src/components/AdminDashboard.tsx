@@ -1128,7 +1128,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                         }`}
                       >
                         <span className="font-semibold block text-[#2d3a22]">Home page</span>
-                        <small className="block text-[10.5px] text-[#8a9280] mt-0.5">Announcement banner</small>
+                        <small className="block text-[10.5px] text-[#8a9280] mt-0.5">Below-Hero announcement</small>
                       </button>
                     </div>
                   </div>
@@ -1725,10 +1725,10 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
             </header>
 
             <div className="p-5 sm:p-[28px_32px] max-w-6xl mx-auto space-y-6 text-left">
-              {/* Top Banner Feed */}
+              {/* Announcement Feed */}
               <div className="space-y-2">
                 <span className="text-xs font-mono font-bold text-[#8a9280] uppercase tracking-wider">
-                  1. Top Announcement Header
+                  1. Announcement Banner (Below Hero Section)
                 </span>
                 {announcements.filter(a => a.status === 'live').map(a => (
                   <div key={a.id} className="p-4 bg-amber-500/10 border border-[#d4a373]/60 rounded-xl flex items-center gap-3">

@@ -1,5 +1,5 @@
 import React from 'react';
-import { ShieldCheck, ChevronRight, Zap, RefreshCw, Layers, TrendingUp, Sparkles, Leaf, Quote, Bell } from 'lucide-react';
+import { ShieldCheck, ChevronRight, Zap, RefreshCw, Layers, TrendingUp, Leaf, Quote, Bell } from 'lucide-react';
 import { Page, Product, Testimonial, Announcement } from '../types';
 import { GreenOrganicsLogo } from './Logos';
 
@@ -59,26 +59,11 @@ export const HomeView: React.FC<HomeViewProps> = ({
 
         {/* Hero Content */}
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-16 flex flex-col justify-center h-full z-10">
-          
-          {/* Live Announcement Banner (if posted in Admin) */}
-          {liveAnnouncements.length > 0 && (
-            <div className="mb-6 max-w-2xl bg-amber-500/20 border border-accent-tan/40 text-cream px-4 py-2.5 rounded-2xl backdrop-blur-md flex items-center gap-3 text-left">
-              <span className="p-1 rounded-lg bg-accent-tan text-secondary shrink-0">
-                <Bell className="w-3.5 h-3.5" />
-              </span>
-              <div className="text-xs">
-                <span className="font-bold text-accent-tan font-mono uppercase tracking-wider mr-1.5">Announcement:</span>
-                <span className="text-white font-medium">{liveAnnouncements[0].title}</span>
-                <p className="text-cream/80 text-[11px] mt-0.5 line-clamp-1">{liveAnnouncements[0].body}</p>
-              </div>
-            </div>
-          )}
-
           <div className="max-w-3xl space-y-6 text-left">
             
             {/* Tagline Badge */}
             <div className="inline-flex items-center gap-2 bg-sage/20 backdrop-blur-md border border-sage/30 px-4 py-2 rounded-full text-sage text-xs sm:text-sm font-semibold tracking-wider uppercase">
-              <Sparkles className="h-4 w-4 animate-spin text-accent-tan" />
+              <span className="text-base select-none leading-none" role="img" aria-label="tree">🌳</span>
               100% Natural, Sustainable &amp; Safe
             </div>
 
@@ -135,9 +120,40 @@ export const HomeView: React.FC<HomeViewProps> = ({
         </div>
       </section>
 
-      {/* Testimonials Carousel (right under hero section, as specified in Admin design) */}
+      {/* 2. Live Announcements (Below Hero Section) */}
+      {liveAnnouncements.length > 0 && (
+        <section id="announcements-section" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-6 sm:-mt-8 relative z-30">
+          <div className="bg-gradient-to-r from-[#24301c] via-[#2d3a22] to-[#1c2615] border border-accent-tan/40 text-cream p-4 sm:p-5 rounded-2xl sm:rounded-3xl shadow-xl backdrop-blur-md flex flex-col md:flex-row md:items-center justify-between gap-4 text-left">
+            <div className="flex items-start sm:items-center gap-3.5">
+              <span className="p-2 sm:p-2.5 rounded-xl bg-accent-tan text-secondary shrink-0 shadow-sm mt-0.5 sm:mt-0">
+                <Bell className="w-4 h-4 sm:w-5 sm:h-5 text-secondary" />
+              </span>
+              <div>
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className="px-2 py-0.5 rounded-md bg-accent-tan/20 text-accent-tan font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-wider border border-accent-tan/30">
+                    Latest Announcement
+                  </span>
+                  <h3 className="text-white font-semibold text-sm sm:text-base">
+                    {liveAnnouncements[0].title}
+                  </h3>
+                </div>
+                <p className="text-cream/85 text-xs sm:text-sm mt-1 leading-relaxed max-w-4xl">
+                  {liveAnnouncements[0].body}
+                </p>
+              </div>
+            </div>
+            {liveAnnouncements.length > 1 && (
+              <span className="text-[11px] font-mono text-accent-tan shrink-0 self-end md:self-center bg-white/5 px-2.5 py-1 rounded-lg border border-white/10">
+                +{liveAnnouncements.length - 1} more update{liveAnnouncements.length > 2 ? 's' : ''}
+              </span>
+            )}
+          </div>
+        </section>
+      )}
+
+      {/* Testimonials Carousel (under hero / announcements) */}
       {homeTestimonials.length > 0 && (
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8 relative z-20">
+        <section className={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ${liveAnnouncements.length > 0 ? 'mt-4 sm:mt-6' : '-mt-8'} relative z-20`}>
           <div className="bg-white rounded-3xl border border-sand shadow-lg p-6 sm:p-8">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 border-b border-sand pb-4">
               <div className="text-left">
